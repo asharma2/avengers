@@ -1,6 +1,8 @@
 package com.avengers.dsa.lists;
 
-public class IntSingleLinkedList implements IList<Integer> {
+import java.util.Iterator;
+
+public class IntSingleLinkedList implements IntList {
 
 	protected Node head, tail;
 
@@ -19,49 +21,90 @@ public class IntSingleLinkedList implements IList<Integer> {
 
 	}
 
-	public boolean add(Integer item) {
-		Node x = new Node(item);
+	@Override
+	public boolean isEmpty() {
+		return head == null;
+	}
+
+	@Override
+	public int size() {
+		return size(head);
+	}
+
+	private int size(Node node) {
+		Node x = node;
+		if (x == null)
+			return 0;
+		return size(x.next) + 1;
+	}
+
+	@Override
+	public boolean insert(Integer data) {
 		if (isEmpty()) {
-			head = tail = x;
+			head = tail = new Node(data);
 		} else {
-			tail.next = x;
+			tail.next = new Node(data);
 			tail = tail.next;
-			tail.next = null;
 		}
 		return true;
 	}
 
-	public void delete(Integer item) {
+	@Override
+	public boolean delete(Integer data) {
+		Node x = head;
 		if (!isEmpty()) {
-			Node x = head;
-			Node f = head.next;
-			while (f != null) {
-				if (f.data == item) {
-					Node r = f.next;
-					x.next = r;
-					f.next = null;
-					return;
+			if (x.data == data) {
+				x = x.next;
+				head = x;
+				return true;
+			} else {
+				Node p = x, n = x.next;
+				while (n != null) {
+					if (n.data == data) {
+						p.next = n.next;
+						return true;
+					}
+					p = n;
+					n = n.next;
 				}
-				x = f;
-				f = f.next;
 			}
 		}
+		return false;
 	}
 
-	public boolean search(Integer item) {
-		return search(head, item) != null;
+	@Override
+	public boolean exists(Integer data) {
+		return exists(head, data) != null;
 	}
 
-	private Node search(Node node, Integer item) {
+	private Node exists(Node node, Integer data) {
 		Node x = node;
-		if (x != null) {
-			if (x.data == item)
-				return x;
-			return search(x.next, item);
+		if (x.data == data) {
+			return x;
+		}
+		return exists(x.next, data);
+	}
+
+	@Override
+	public boolean clear() {
+		head = tail = null;
+		return true;
+	}
+
+	@Override
+	public Integer get(int index) {
+		Node x = head;
+		int idx = 0;
+		while (x != null) {
+			if (idx++ == index) {
+				return x.data;
+			}
+			x = x.next;
 		}
 		return null;
 	}
 
+	@Override
 	public void reverse() {
 		head = reverse(head);
 	}
@@ -70,43 +113,30 @@ public class IntSingleLinkedList implements IList<Integer> {
 		Node x = node;
 		if (x == null)
 			return null;
-		if (x.next == null)
-			return x;
-
-		Node f = x.next;
+		Node n = x.next;
 		x.next = null;
-		Node r = reverse(f);
-		f.next = x;
+		Node r = reverse(n);
+		n.next = x;
 		return r;
 	}
 
-	public int size() {
-		return size(head);
-	}
+	@Override
+	public Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
+			Node x = head;
 
-	private int size(Node node) {
-		Node x = node;
-		if (x != null) {
-			return size(node.next) + 1;
-		}
-		return 0;
-	}
+			@Override
+			public boolean hasNext() {
+				return x != null;
+			}
 
-	public boolean isEmpty() {
-		return head == null;
-	}
-
-	public void print() {
-		print(head);
-	}
-
-	private void print(Node node) {
-		Node x = node;
-		while (x != null) {
-			System.out.print(x.data + " ");
-			x = x.next;
-		}
-		System.out.println();
+			@Override
+			public Integer next() {
+				Integer data = x.data;
+				x = x.next;
+				return data;
+			}
+		};
 	}
 
 }

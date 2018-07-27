@@ -1,6 +1,8 @@
 package com.avengers.dsa.lists;
 
-public class IntCircularLinkedList implements IList<Integer> {
+import java.util.Iterator;
+
+public class IntCircularLinkedList implements IntList {
 
 	protected Node head, tail;
 
@@ -9,105 +11,126 @@ public class IntCircularLinkedList implements IList<Integer> {
 		Node next;
 
 		public Node(int data) {
-			this(data, null);
-		}
-
-		public Node(int data, Node next) {
 			this.data = data;
-			this.next = next;
 		}
 
-	}
-
-	public boolean add(Integer item) {
-		Node x = new Node(item);
-		if (isEmpty()) {
-			head = tail = x;
-		} else {
-			tail.next = x;
-			tail = tail.next;
-			tail.next = head;
-		}
-		return true;
-	}
-
-	public void delete(Integer item) {
-		if (!isEmpty()) {
-			Node x = head;
-			Node f = head.next;
-			while (f != null) {
-				if (f.data == item) {
-					Node r = f.next;
-					x.next = r;
-					f.next = null;
-					return;
-				}
-				x = f;
-				f = f.next;
-			}
+		@Override
+		public String toString() {
+			return data + "->" + (next != null ? next.data : "");
 		}
 	}
 
-	public boolean search(Integer item) {
-		return search(head, item) != null;
-	}
-
-	private Node search(Node node, Integer item) {
-		Node x = node;
-		if (x != null) {
-			if (x.data == item)
-				return x;
-			return search(x.next, item);
-		}
-		return null;
-	}
-
-	public void reverse() {
-		head = reverse(head);
-	}
-
-	private Node reverse(Node node) {
-		Node x = node;
-		if (x == null)
-			return null;
-		if (x.next == null)
-			return x;
-
-		Node f = x.next;
-		x.next = null;
-		Node r = reverse(f);
-		f.next = x;
-		return r;
-	}
-
-	public int size() {
-		return size(head.next, head) + 1;
-	}
-
-	private int size(Node node, Node head) {
-		Node x = node;
-		if (x != head) {
-			return size(node.next, head) + 1;
-		}
-		return 0;
-	}
-
+	@Override
 	public boolean isEmpty() {
 		return head == null;
 	}
 
-	public void print() {
-		print(head);
+	@Override
+	public int size() {
+		return size(head);
 	}
 
-	private void print(Node node) {
-		Node x = node;
-		Node c = node;
-		do {
-			System.out.print(x.data + " ");
-			x = x.next;
-		} while (x != c);
-		System.out.println();
+	private int size(Node node) {
+		if (node == null)
+			return 0;
+		if (node.next == head)
+			return 1;
+		return size(node.next) + 1;
 	}
 
+	@Override
+	public boolean insert(Integer data) {
+		Node x = new Node(data);
+		if (isEmpty()) {
+			head = tail = x;
+			tail.next = head;
+		} else {
+			x.next = head;
+			tail.next = x;
+			tail = tail.next;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean delete(Integer data) {
+		if (!isEmpty()) {
+			Node x = head;
+			if (x.data == data) {
+				x = x.next;
+				tail.next = x;
+				return true;
+			} else {
+				Node p = null, n = x.next;
+				while (n != head) {
+					if (n.data == data) {
+						p.next = n.next;
+						return true;
+					}
+					p = n;
+					n = n.next;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean exists(Integer data) {
+		return search(head, data) != null;
+	}
+
+	private Node search(Node node, Integer data) {
+		if (node.next == head)
+			return null;
+		if (node.data == data)
+			return node;
+		return search(node.next, data);
+	}
+
+	@Override
+	public boolean clear() {
+		head = tail = null;
+		return true;
+	}
+
+	@Override
+	public Integer get(int index) {
+		return get(head, 1, index);
+	}
+
+	private Integer get(Node node, int idx, int index) {
+		if (node == null)
+			return null;
+		if (idx == index) {
+			return node.data;
+		}
+		return get(node.next, ++idx, index);
+	}
+
+	@Override
+	public void reverse() {
+
+	}
+
+	@Override
+	public Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
+			Node x = head;
+			int count = 0;
+
+			@Override
+			public boolean hasNext() {
+				return (count++ == 0) ? x != null : x != head;
+			}
+
+			@Override
+			public Integer next() {
+				Integer data = x.data;
+				x = x.next;
+				return data;
+			}
+		};
+	}
 }

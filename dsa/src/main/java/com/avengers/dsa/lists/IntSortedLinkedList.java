@@ -1,6 +1,8 @@
 package com.avengers.dsa.lists;
 
-public class IntSortedLinkedList implements IList<Integer> {
+import java.util.Iterator;
+
+public class IntSortedLinkedList implements IntList {
 
 	protected Node head, tail;
 
@@ -17,108 +19,11 @@ public class IntSortedLinkedList implements IList<Integer> {
 			this.next = next;
 		}
 
-	}
-
-	@Override
-	public boolean add(Integer data) {
-		if (isEmpty()) {
-			head = tail = new Node(data);
-		} else {
-			head = insert(head, data);
-		}
-		return false;
-	}
-
-	private Node insert(Node node, Integer data) {
-		Node x = node;
-		Node n = new Node(data);
-
-		if (data <= x.data) {
-			n.next = x;
-			return n;
+		@Override
+		public String toString() {
+			return data + " => " + (next != null ? next.data : "");
 		}
 
-		if (data >= tail.data) {
-			tail.next = n;
-			tail = tail.next;
-			return x;
-		}
-
-		Node c = x, p = null;
-		while (c != null) {
-			if (data > c.data) {
-				p = c;
-				c = c.next;
-				continue;
-			}
-			break;
-		}
-		p.next = n;
-		n.next = c;
-		return node;
-	}
-
-	@Override
-	public void delete(Integer item) {
-		delete(head, item);
-	}
-
-	private boolean delete(Node node, Integer data) {
-		Node x = node, p = null;
-		while (x != null) {
-			if (x.data == data) {
-				Node n = x.next;
-				p.next = n;
-				return true;
-			}
-			p = x;
-			x = x.next;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean search(Integer item) {
-		return search(head, item);
-	}
-
-	private boolean search(Node node, Integer data) {
-		Node x = node;
-		if (x == null)
-			return false;
-		if (x.data == data)
-			return true;
-		return search(x.next, data);
-	}
-
-	@Override
-	public void reverse() {
-		head = revese(head);
-	}
-
-	private Node revese(Node node) {
-		Node x = node;
-		if (x == null)
-			return null;
-		if (x.next == null)
-			return x;
-		Node f = x.next;
-		x.next = null;
-		Node r = revese(f);
-		f.next = x;
-		return r;
-	}
-
-	@Override
-	public int size() {
-		return size(head);
-	}
-
-	private int size(Node node) {
-		Node x = node;
-		if (x == null)
-			return 0;
-		return size(x.next) + 1;
 	}
 
 	@Override
@@ -127,12 +32,125 @@ public class IntSortedLinkedList implements IList<Integer> {
 	}
 
 	@Override
-	public void print() {
-		Node x = head;
-		while (x != null) {
-			System.out.print(x.data + (x.next != null ? "," : ""));
-			x = x.next;
-		}
+	public int size() {
+		return size(head);
 	}
 
+	private int size(Node node) {
+		if (node == null)
+			return 0;
+		return size(node.next) + 1;
+	}
+
+	@Override
+	public boolean insert(Integer data) {
+		Node x = new Node(data);
+		if (isEmpty()) {
+			head = tail = x;
+		} else {
+			if (head.data >= data) {
+				x.next = head;
+				head = x;
+				return true;
+			}
+
+			if (tail.data <= data) {
+				tail.next = x;
+				tail = tail.next;
+				return true;
+			}
+
+			Node s = head, f = head.next;
+			while (f.data <= data) {
+				s = f;
+				f = f.next;
+			}
+			s.next = x;
+			x.next = f;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean delete(Integer data) {
+		if (!isEmpty()) {
+			Node x = head;
+			if (x.data == data) {
+				x = x.next;
+				return true;
+			}
+
+			Node n = head, p = null;
+			while (n.data != data) {
+				p = n;
+				n = n.next;
+			}
+
+			if (n != null) {
+				if (p != null) {
+					p.next = n.next;
+				} else {
+					n = n.next;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean exists(Integer data) {
+		return search(head, data) != null;
+	}
+
+	private Node search(Node node, Integer data) {
+		if (node == null)
+			return null;
+		if (node.data == data)
+			return node;
+		return search(node.next, data);
+	}
+
+	@Override
+	public boolean clear() {
+		head = tail = null;
+		return head == null;
+	}
+
+	@Override
+	public Integer get(int index) {
+		return get(head, 1, index);
+	}
+
+	private Integer get(Node node, int idx, int index) {
+		if (node == null)
+			return null;
+		if (idx == index)
+			return node.data;
+		return get(node.next, ++idx, index);
+	}
+
+	@Override
+	public void reverse() {
+
+	}
+
+	@Override
+	public Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
+			Node x = head;
+
+			@Override
+			public boolean hasNext() {
+				return x != null;
+			}
+
+			@Override
+			public Integer next() {
+				Integer data = x.data;
+				x = x.next;
+				return data;
+			}
+		};
+	}
 }
