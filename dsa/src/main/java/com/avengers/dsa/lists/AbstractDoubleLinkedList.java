@@ -82,4 +82,32 @@ public abstract class AbstractDoubleLinkedList implements IntList {
 			}
 		};
 	}
+
+	protected Node searchInternal(Integer data) {
+		if (!isEmpty()) {
+			if (head.data == data)
+				return head;
+			if (tail.data == data)
+				return tail;
+
+			Node x = head;
+			while (x != null) {
+				if (x.data == data)
+					return x;
+				x = x.next;
+			}
+		}
+		return null;
+	}
+
+	protected Integer getInternal(int index) {
+		Node x = head;
+		int idx = 0;
+		while (x != null) {
+			if (idx++ == index)
+				return x.data;
+			x = x.next;
+		}
+		return null;
+	}
 }
