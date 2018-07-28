@@ -8,32 +8,27 @@ public class IntSortedCircularDoubleLinkedList extends AbstractDoubleLinkedList 
 	}
 
 	@Override
-	public boolean insert(Integer item) {
-		// TODO Auto-generated method stub
+	public boolean insert(Integer data) {
 		return false;
 	}
 
 	@Override
-	public boolean delete(Integer item) {
-		// TODO Auto-generated method stub
+	public boolean delete(Integer data) {
 		return false;
 	}
 
 	@Override
-	public boolean exists(Integer item) {
-		// TODO Auto-generated method stub
+	public boolean exists(Integer data) {
 		return false;
 	}
 
 	@Override
 	public Integer get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return getInternal2(index);
 	}
 
 	@Override
 	public void reverse() {
-		// TODO Auto-generated method stub
 		
 	}
 

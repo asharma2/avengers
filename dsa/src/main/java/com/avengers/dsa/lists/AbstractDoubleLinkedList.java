@@ -110,4 +110,15 @@ public abstract class AbstractDoubleLinkedList implements IntList {
 		}
 		return null;
 	}
+
+	protected Integer getInternal2(int index) {
+		Node x = head;
+		int idx = 0;
+		do {
+			if (idx++ == index)
+				return x.data;
+			x = x.next;
+		} while (x != null);
+		return null;
+	}
 }
