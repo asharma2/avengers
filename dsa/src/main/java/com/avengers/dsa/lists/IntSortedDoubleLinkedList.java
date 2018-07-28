@@ -1,5 +1,7 @@
 package com.avengers.dsa.lists;
 
+import java.util.Iterator;
+
 public class IntSortedDoubleLinkedList extends AbstractDoubleLinkedList {
 
 	@Override
@@ -12,20 +14,14 @@ public class IntSortedDoubleLinkedList extends AbstractDoubleLinkedList {
 		Node x = new Node(data);
 		if (isEmpty()) {
 			head = tail = x;
-			head.prev = tail;
-			tail.next = head;
 		} else {
 			if (head.data >= data) {
 				x.next = head;
-				x.prev = tail;
-				head.prev = x;
-				tail.next = x;
+				x.prev = null;
 				head = x;
 			} else if (tail.data <= data) {
-				x.next = head;
-				x.prev = tail;
-				head.prev = x;
 				tail.next = x;
+				x.prev = tail;
 				tail = x;
 			} else {
 				Node s = head;
@@ -49,17 +45,15 @@ public class IntSortedDoubleLinkedList extends AbstractDoubleLinkedList {
 		if (!isEmpty()) {
 			if (head.data == data) {
 				head = head.next;
-				tail.next = head;
-				head.prev = tail;
+				head.prev = null;
 				return true;
 			} else if (tail.data == data) {
 				tail = tail.prev;
-				tail.next = head;
-				head.prev = tail;
+				tail.next = null;
 				return true;
 			} else {
 				Node s = head, f = head.next;
-				while (f != head) {
+				while (f != null) {
 					if (f.data < data) {
 						s = f;
 						f = f.next;
@@ -88,4 +82,22 @@ public class IntSortedDoubleLinkedList extends AbstractDoubleLinkedList {
 
 	}
 
+	@Override
+	public Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
+			Node x = head;
+
+			@Override
+			public boolean hasNext() {
+				return x != null;
+			}
+
+			@Override
+			public Integer next() {
+				Integer data = x.data;
+				x = x.next;
+				return data;
+			}
+		};
+	}
 }

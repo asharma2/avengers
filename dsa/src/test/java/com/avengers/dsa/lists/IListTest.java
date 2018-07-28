@@ -104,11 +104,31 @@ public class IListTest {
 		System.out.println(intList.size());
 		intList.print();
 	}
-	
+
 	@Test
-	@Ignore
 	public void intSortedDoubleLinkedList() throws Exception {
 		IntList intList = new IntSortedDoubleLinkedList();
+		intList.insert(10);
+		intList.insert(2);
+		intList.insert(12);
+		intList.insert(1);
+		intList.insert(5);
+		intList.insert(3);
+		System.out.println(intList.size());
+		intList.print();
+		System.out.println("Delete 2");
+		intList.delete(2);
+		intList.print();
+		System.out.println("Delete 12");
+		intList.delete(12);
+		System.out.println(intList.size());
+		intList.print();
+	}
+
+	@Test
+	@Ignore
+	public void intSortedCircularDoubleLinkedList() throws Exception {
+		IntList intList = new IntSortedCircularDoubleLinkedList();
 		intList.insert(10);
 		intList.insert(2);
 		intList.insert(12);
