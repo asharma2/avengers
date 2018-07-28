@@ -8,7 +8,7 @@ public class IMapsTest {
 
 	@Test
 	public void intHashMap() throws Exception {
-		IntHashMap intMap = new IntHashMap();
+		IntHashMap<Integer> intMap = new IntHashMap<Integer>();
 		intMap.put(1, 11);
 		intMap.put(2, 12);
 		intMap.put(3, 13);
