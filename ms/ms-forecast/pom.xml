@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.avengers</groupId>
-		<artifactId>avengers-parent</artifactId>
+		<groupId>com.avengers.ms</groupId>
+		<artifactId>ms</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>com.avengers.ms</groupId>
-	<artifactId>ms</artifactId>
-	<name>ms</name>
-	<packaging>pom</packaging>
+	<groupId>com.avengers.fc</groupId>
+	<artifactId>ms-forecast</artifactId>
+	<name>ms-forecast</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -20,11 +20,10 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-dependencies</artifactId>
-			<version>2.0.0.RELEASE</version>
+			<version>2.0.3.RELEASE</version>
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
@@ -70,31 +69,20 @@
 			<artifactId>spring-core</artifactId>
 			<version>5.0.8.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-			<version>5.0.8.RELEASE</version>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.9.6</version>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>ms-common</module>
-		<module>ms-search</module>
-		<module>ms-ignite</module>
-		<module>ms-forecast</module>
-		<module>ms-parser</module>
-	</modules>
 </project>
