@@ -18,6 +18,10 @@ public class IntBinaryTree implements ITree<Integer> {
 			this.right = right;
 		}
 
+		@Override
+		public String toString() {
+			return "Node: " + data;
+		}
 	}
 
 	@Override
@@ -104,6 +108,7 @@ public class IntBinaryTree implements ITree<Integer> {
 			}
 			break;
 		}
+		System.out.println();
 	}
 
 	private void levelOrderRecursive(Node node) {
@@ -137,6 +142,170 @@ public class IntBinaryTree implements ITree<Integer> {
 		inOrderRecursive(node.left);
 		System.out.print(node.data + " ");
 		inOrderRecursive(node.right);
+	}
+
+	class MaxLevel {
+		int max;
+
+		public MaxLevel setMax(int max) {
+			this.max = max;
+			return this;
+		}
+	}
+
+	public void printLeftView() {
+		printLeftView(root, 1, new MaxLevel().setMax(0));
+		System.out.println();
+	}
+
+	private void printLeftView(Node node, int level, MaxLevel maxLevel) {
+		if (node == null)
+			return;
+
+		if (level > maxLevel.max) {
+			maxLevel.max = level;
+			System.out.print(node.data + " ");
+		}
+
+		printLeftView(node.left, level + 1, maxLevel);
+		printLeftView(node.right, level + 1, maxLevel);
+	}
+
+	public boolean isBinaryTree() {
+		return isBst(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	private boolean isBst(Node node, int minValue, int maxValue) {
+		if (node == null)
+			return true;
+		int data = node.data;
+		if (data < minValue && data > maxValue)
+			return false;
+		return isBst(node.left, minValue, node.data - 1) && isBst(node.right, node.data + 1, maxValue);
+	}
+
+	public boolean isMirror(Node that) {
+		return isMirror(root, that);
+	}
+
+	public boolean isIdentical(Node that) {
+		return isIdentical(root, that);
+	}
+
+	class NodeInfo {
+		Node node;
+		int max;
+		int min;
+		int size;
+		int ans;
+		boolean bst;
+
+		public Node getNode() {
+			return node;
+		}
+
+		public NodeInfo setNode(Node node) {
+			this.node = node;
+			return this;
+		}
+
+		public int getMax() {
+			return max;
+		}
+
+		public NodeInfo setMax(int max) {
+			this.max = max;
+			return this;
+		}
+
+		public int getMin() {
+			return min;
+		}
+
+		public NodeInfo setMin(int min) {
+			this.min = min;
+			return this;
+		}
+
+		public int getSize() {
+			return size;
+		}
+
+		public NodeInfo setSize(int size) {
+			this.size = size;
+			return this;
+		}
+
+		public boolean isBst() {
+			return bst;
+		}
+
+		public NodeInfo setBst(boolean bst) {
+			this.bst = bst;
+			return this;
+		}
+
+		public int getAns() {
+			return ans;
+		}
+
+		public NodeInfo setAns(int ans) {
+			this.ans = ans;
+			return this;
+		}
+
+		@Override
+		public String toString() {
+			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans + ", bst="
+			        + bst + "]";
+		}
+
+	}
+
+	public int largestBst() {
+		NodeInfo ni = largestBst(root);
+		return ni.ans;
+	}
+
+	private NodeInfo largestBst(Node node) {
+		if (node == null)
+			return new NodeInfo().setBst(true).setMin(Integer.MAX_VALUE).setMax(Integer.MIN_VALUE).setSize(0);
+
+		if (node.left == null && node.right == null)
+			return new NodeInfo().setBst(true).setMin(node.data).setMax(node.data).setSize(1);
+
+		NodeInfo left = largestBst(node.left);
+		NodeInfo right = largestBst(node.right);
+
+		NodeInfo ret = new NodeInfo().setSize(1 + left.size + right.size);
+
+		if (left.bst && right.bst && left.max < node.data && node.data < right.min) {
+			ret.min = Math.min(left.min, Math.min(right.min, node.data));
+			ret.max = Math.max(right.max, Math.max(left.max, node.data));
+			ret.node = node;
+			ret.bst = true;
+			return ret;
+		}
+
+		ret.ans = Math.max(left.size, right.size);
+		ret.bst = false;
+		return ret;
+	}
+
+	private boolean isIdentical(Node _this, Node _that) {
+		if (_this == null && _that == null)
+			return true;
+		if (_this != null && _that != null && _this.data == _that.data)
+			return isIdentical(_this.left, _that.left) && isMirror(_this.right, _that.right);
+		return false;
+	}
+
+	private boolean isMirror(Node _this, Node _that) {
+		if (_this == null && _that == null)
+			return true;
+		if (_this != null && _that != null && _this.data == _that.data)
+			return isMirror(_this.left, _that.right) && isMirror(_this.right, _that.left);
+		return false;
 	}
 
 }

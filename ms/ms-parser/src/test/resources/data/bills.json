@@ -1,0 +1,68 @@
+[
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-01-01",
+		"amount": 10
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-02-01",
+		"amount": 11
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-03-01",
+		"amount": 13
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-04-01",
+		"amount": 14
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-05-01",
+		"amount": 15
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-06-01",
+		"amount": 16
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-07-01",
+		"amount": 15
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-08-01",
+		"amount": 14
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-09-01",
+		"amount": 13
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-10-01",
+		"amount": 12
+	},
+	{
+		"accountHolder": "ATUL",
+		"cardNumber": "xxxx-xxxx-xxxx-9211",
+		"date": "2018-11-01",
+		"amount": 11
+	}
+]

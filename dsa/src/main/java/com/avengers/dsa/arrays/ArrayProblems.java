@@ -1,8 +1,11 @@
 package com.avengers.dsa.arrays;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 public class ArrayProblems {
 
@@ -223,6 +226,189 @@ public class ArrayProblems {
 				max = arr[j];
 		}
 		return profit;
+	}
+
+	public static int findMeanPoint(int[] arr) {
+		int n = arr.length;
+		int leftMax[] = new int[n];
+		leftMax[0] = Integer.MIN_VALUE;
+
+		// Fill leftMax[]1..n-1]
+		for (int i = 1; i < n; i++)
+			leftMax[i] = Math.max(leftMax[i - 1], arr[i - 1]);
+
+		// Initialize minimum from right
+		int rightMin = Integer.MAX_VALUE;
+
+		// Traverse array from right
+		for (int i = n - 1; i >= 0; i--) {
+			// Check if we found a required element
+			if (leftMax[i] < arr[i] && rightMin > arr[i])
+				return i;
+
+			// Update right minimum
+			rightMin = Math.min(rightMin, arr[i]);
+		}
+
+		// If there was no element matching criteria
+		return -1;
+	}
+
+	public static void zigzag(int[] arr) {
+		boolean flag = true;
+		for (int i = 0; i < arr.length - 2; i++) {
+			if (flag) {
+				if (arr[i] > arr[i + 1]) {
+					swap(arr, i, i + 1);
+				}
+			} else {
+				if (arr[i] < arr[i + 1])
+					swap(arr, i, i + 1);
+			}
+			flag = !flag;
+		}
+	}
+
+	public static int findUniqueNumberInSortedArray(int[] arr) {
+		return searchSorted(arr, 0, arr.length - 1);
+	}
+
+	private static int searchSorted(int[] arr, int low, int high) {
+		if (low > high)
+			return -1;
+		if (low == high)
+			return arr[low];
+		int mid = (low + high) / 2;
+		if (mid % 2 == 0) {
+			if (arr[mid] == arr[mid + 1]) {
+				searchSorted(arr, mid + 2, high);
+			} else {
+				searchSorted(arr, low, mid - 1);
+			}
+		} else {
+			if (arr[mid] == arr[mid - 1]) {
+				searchSorted(arr, mid + 1, high);
+			} else {
+				searchSorted(arr, low, mid - 1);
+			}
+		}
+		return -1;
+	}
+
+	public static boolean canBePreOrder(int[] arr) {
+		Stack<Integer> stack = new Stack<>();
+		int root = Integer.MIN_VALUE;
+		for (int i = 0; i < arr.length; i++) {
+			int data = arr[i];
+			if (data < root)
+				return false;
+			while (!stack.isEmpty() && stack.peek() < arr[i]) {
+				root = stack.peek();
+				stack.pop();
+			}
+			stack.push(arr[i]);
+		}
+		return true;
+	}
+
+	public static int largestSequenceOf0And1(int[] arr) {
+		int totalOne = 0;
+		int s = 0, e = arr.length - 1;
+		while (s <= e) {
+			if (s == e) {
+				totalOne += arr[s++];
+			} else {
+				totalOne += arr[s++] + arr[e--];
+			}
+		}
+		int totalZero = arr.length - totalOne;
+		return (totalOne == arr.length || totalOne == 0) ? -1 : 2 * Math.min(totalOne, totalZero);
+	}
+
+	public static char maxOccuringCharacter(String str) {
+		char[] ch = str.toCharArray();
+		int[] occur = new int[256];
+		int max = 0;
+		char maxOccurChar = ' ';
+		for (char c : ch) {
+			int cnt = occur[c]++;
+			if (cnt > max) {
+				max = cnt;
+				maxOccurChar = c;
+			}
+		}
+		return maxOccurChar;
+	}
+
+	public static String removeAdjacents(String str) {
+		char[] ch = str.toCharArray();
+		int len = removeAdjacents(ch, 0, ch.length);
+		return new String(ch, 0, len);
+	}
+
+	public static boolean isStringRotatedByN(String str, String str2, int n) {
+		int len = str.length();
+		if (str.length() < n)
+			return false;
+		String clockwise = str.substring(len - n) + str.substring(0, len - n);
+		String anticlockwise = str.substring(n, len) + str.substring(0, n);
+		return clockwise.equals(str2) || anticlockwise.equals(str2);
+	}
+
+	private static int removeAdjacents(char[] ch, int s, int e) {
+		int k = 0, i = 1;
+		for (i = 1; i < e; i++) {
+			if (ch[i - 1] != ch[i]) {
+				ch[k++] = ch[i - 1];
+			} else {
+				while (ch[i - 1] == ch[i])
+					i++;
+			}
+		}
+		ch[k++] = ch[i - 1];
+		if (k == (e - s)) {
+			return k;
+		} else {
+			return removeAdjacents(ch, s, k);
+		}
+	}
+
+	public static String generateLargestNumber(Integer arr[]) {
+		return generateLargestNumber(arr, 0, arr.length);
+	}
+
+	private static String generateLargestNumber(Integer[] arr, int s, int e) {
+		Arrays.sort(arr, new Comparator<Integer>() {
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				String n1 = Integer.toString(o1) + Integer.toString(o2);
+				String n2 = Integer.toString(o2) + Integer.toString(o1);
+				return n2.compareTo(n1);
+			}
+		});
+		final StringBuilder sb = new StringBuilder();
+		for (Integer a : arr) {
+			sb.append(a);
+		}
+		return sb.toString();
+	}
+
+	public static char firstNonRepeatingCharacter(String str) {
+		List<Character> queue = new LinkedList<>();
+		boolean[] repeat = new boolean[256];
+		char[] ch = str.toCharArray();
+		for (char c : ch) {
+			if (!repeat[c]) {
+				queue.add(c);
+				repeat[c] = true;
+			} else {
+				queue.remove(c);
+			}
+		}
+		if (!queue.isEmpty()) {
+			return queue.get(0);
+		}
+		return ' ';
 	}
 
 	private static void swapInGroup(int[] arr, int s, int e) {

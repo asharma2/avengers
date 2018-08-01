@@ -22,14 +22,14 @@ public class ArrayProblemsTest {
 
 	@Test
 	@Ignore
-	public void kadane() throws Exception {
+	public void _kadane() throws Exception {
 		assertEquals(6, kadaneProblem(new int[] { 1, 2, 3 }));
 		assertEquals(-1, kadaneProblem(new int[] { -1, -2, -3, -4 }));
 	}
 
 	@Test
 	@Ignore
-	public void missing() throws Exception {
+	public void _missing() throws Exception {
 		assertEquals(4, findMissingNumber(new int[] { 1, 2, 3, 5 }));
 	}
 
@@ -47,7 +47,7 @@ public class ArrayProblemsTest {
 
 	@Test
 	@Ignore
-	public void equilibriumpoint() throws Exception {
+	public void _equilibriumpoint() throws Exception {
 		int[] arr = new int[] { 1, 3, 5, 2, 2 };
 		int eqp = equilibriumPoint(arr);
 		assertEquals(5, arr[eqp]);
@@ -78,6 +78,7 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _swapInGroup() throws Exception {
 		int[] arr = new int[] { 1, 2, 3, 4, 5 };
 		swapInGroup(arr, 3);
@@ -109,10 +110,72 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _maxProfitStock() throws Exception {
 		int arr[] = { 7, 1, 5, 3, 6, 4 };
 		int p = maxProfitStock(arr);
 		assertTrue(p == 7);
+	}
+
+	@Test
+	@Ignore
+	public void _findMeanPoint() throws Exception {
+		int arr[] = { 5, 1, 4, 3, 6, 8, 10, 7, 9 };
+		int mean = findMeanPoint(arr);
+		System.out.println(mean);
+	}
+
+	@Test
+	@Ignore
+	public void _zigzag() throws Exception {
+		int[] arr = { 4, 3, 7, 8, 6, 2, 1 };
+		zigzag(arr);
+		assertTrue(arr[0] == 3);
+	}
+
+	@Test
+	@Ignore
+	public void _canBePreOrder() throws Exception {
+		int[] arr = { 40, 30, 35, 80, 100 };
+		boolean preOrder = canBePreOrder(arr);
+		assertTrue(preOrder);
+	}
+
+	@Test
+	@Ignore
+	public void _largestSequenceOf0And1() throws Exception {
+		int[] arr = { 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0 };
+		int max = largestSequenceOf0And1(arr);
+		System.out.println(max);
+	}
+
+	@Test
+	@Ignore
+	public void _removeAdjacents() throws Exception {
+		String str = "azxxzy";
+		assertEquals("ay", removeAdjacents(str));
+	}
+
+	@Test
+	@Ignore
+	public void _isStringRotatedByN() throws Exception {
+		assertTrue(isStringRotatedByN("amazon", "azonam", 2));
+		assertTrue(isStringRotatedByN("amazon", "onamaz", 2));
+	}
+
+	@Test
+	@Ignore
+	public void _maxOccuringCharacter() throws Exception {
+		char c = maxOccuringCharacter("amazonooo");
+		assertTrue(c == 'o');
+	}
+
+	@Test
+	@Ignore
+	public void _generateLargestNumber() throws Exception {
+		Integer arr[] = { 1, 34, 3, 98, 9, 76, 45, 4 };
+		String number = generateLargestNumber(arr);
+		assertEquals("998764543431", number);
 	}
 
 }
