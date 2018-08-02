@@ -2,9 +2,12 @@ package com.avengers.dsa.arrays;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 public class ArrayProblems {
@@ -402,13 +405,167 @@ public class ArrayProblems {
 				queue.add(c);
 				repeat[c] = true;
 			} else {
-				queue.remove(c);
+				queue.remove((Character) c);
 			}
 		}
 		if (!queue.isEmpty()) {
 			return queue.get(0);
 		}
 		return ' ';
+	}
+
+	public static int searchInSortedRotatedArray(int[] arr, int x) {
+		return searchInSortedRotatedArray(arr, x, 0, arr.length - 1);
+	}
+
+	private static int searchInSortedRotatedArray(int[] arr, int x, int low, int high) {
+		int pivot = findPivotOfSortedRotatedArray(arr, low, high);
+		if (pivot == -1)
+			return binarySearch(arr, x, low, high);
+		if (arr[pivot] == x)
+			return pivot;
+		return (arr[0] <= x) ? binarySearch(arr, x, 0, pivot - 1) : binarySearch(arr, x, pivot + 1, high);
+	}
+
+	private static int binarySearch(int[] arr, int x, int low, int high) {
+		if (low > high)
+			return -1;
+		int mid = (low + high) / 2;
+		if (arr[mid] == x)
+			return mid;
+		return (arr[mid] <= x) ? binarySearch(arr, x, mid + 1, high) : binarySearch(arr, x, low, mid - 1);
+	}
+
+	public static int findMedian(int arr1[], int arr2[], int n) {
+		int i = 0, j = 0;
+		int m1 = -1, m2 = -1;
+		int count;
+		for (count = 0; count <= n; count++) {
+			if (i == n) {
+				m1 = m2;
+				m2 = arr2[0];
+			} else if (j == n) {
+				m1 = m2;
+				m2 = arr1[0];
+			}
+
+			if (arr1[i] < arr2[j]) {
+				m1 = m2;
+				m2 = arr1[i++];
+			} else {
+				m1 = m2;
+				m2 = arr2[j++];
+			}
+		}
+		return (m1 + m2) / 2;
+	}
+
+	private static int findPivotOfSortedRotatedArray(int[] arr, int low, int high) {
+		if (low > high)
+			return -1;
+		if (low == high)
+			return low;
+		int mid = (low + high) / 2;
+		if (mid < high && arr[mid] > arr[mid + 1])
+			return mid;
+		if (mid > low && arr[mid] < arr[mid - 1])
+			return (mid - 1);
+
+		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1)
+		        : findPivotOfSortedRotatedArray(arr, mid + 1, high);
+	}
+
+	public static String maxOccuringWord(String[] strs) {
+		Map<String, Integer> wCounts = new HashMap<>();
+		int max = 0;
+		String maxOccurence = "";
+		for (String str : strs) {
+			int count = 1;
+			if (!wCounts.containsKey(str)) {
+				wCounts.put(str, count);
+			} else {
+				count = wCounts.get(str) + 1;
+				wCounts.put(str, count);
+			}
+
+			if (max < count) {
+				max = count;
+				maxOccurence = str;
+			}
+		}
+		return maxOccurence;
+	}
+
+	public static int[] findRepeatingAndMissing(int[] arr) {
+		int n = arr.length, sum = (n * (n + 1)) / 2, sm = 0;
+		int[] rm = new int[2];
+		int ca[] = new int[n];
+		for (int i = 0; i < n; i++) {
+			ca[arr[i] - 1]++;
+			if (ca[arr[i] - 1] == 2)
+				rm[0] = arr[i];
+			sm += arr[i];
+		}
+		rm[1] = sum - sm + rm[0];
+		return rm;
+	}
+
+	public static List<Integer> distinctNumbersInGroup(int[] arr, int k) {
+		List<Integer> distincts = new LinkedList<>();
+		int n = arr.length;
+		for (int i = 0; i < n - k + 1; i++) {
+			int distinct = distinct(arr, i, i + k);
+			distincts.add(distinct);
+		}
+		return distincts;
+	}
+
+	private static int distinct(int[] arr, int s, int e) {
+		int cnt = 0;
+		Set<Integer> unq = new HashSet<>();
+		while (s < e) {
+			if (unq.add(arr[s++]))
+				cnt++;
+		}
+		return cnt;
+	}
+
+	public static int minJumpsToReachEnd(int[] arr) {
+		return minJumps(arr, arr.length);
+	}
+
+	private static int minJumps(int[] arr, int n) {
+		int jumps[] = new int[n];
+		if (arr[0] == 0)
+			return Integer.MAX_VALUE;
+		jumps[0] = 0;
+		for (int i = 0; i < n; i++) {
+			jumps[i] = Integer.MAX_VALUE;
+			for (int j = 0; j < i; j++) {
+
+			}
+		}
+		return jumps[0];
+	}
+
+	public static boolean isPalindrome(String str) {
+		str = str.toLowerCase();
+		int s = 0, e = str.length() - 1;
+		while (s < e) {
+			if (!(str.charAt(s) >= 65 && str.charAt(s) <= 91)) {
+				s++;
+				continue;
+			}
+			if (!(str.charAt(e) >= 65 && str.charAt(e) <= 91)) {
+				e--;
+				continue;
+			}
+			if (str.charAt(s++) != str.charAt(e--)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private static void swapInGroup(int[] arr, int s, int e) {

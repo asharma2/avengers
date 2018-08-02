@@ -1,13 +1,27 @@
 package com.avengers.dsa.arrays;
 
+import static com.avengers.dsa.arrays.ArrayProblems.canBePreOrder;
+import static com.avengers.dsa.arrays.ArrayProblems.chocolateDistribution;
 import static com.avengers.dsa.arrays.ArrayProblems.equilibriumPoint;
+import static com.avengers.dsa.arrays.ArrayProblems.findMeanPoint;
+import static com.avengers.dsa.arrays.ArrayProblems.findMedian;
 import static com.avengers.dsa.arrays.ArrayProblems.findMissingNumber;
+import static com.avengers.dsa.arrays.ArrayProblems.firstNonRepeatingCharacter;
+import static com.avengers.dsa.arrays.ArrayProblems.generateLargestNumber;
+import static com.avengers.dsa.arrays.ArrayProblems.isStringRotatedByN;
 import static com.avengers.dsa.arrays.ArrayProblems.kadaneProblem;
+import static com.avengers.dsa.arrays.ArrayProblems.largestSequenceOf0And1;
 import static com.avengers.dsa.arrays.ArrayProblems.leaders;
 import static com.avengers.dsa.arrays.ArrayProblems.maxInSlidingWindow;
+import static com.avengers.dsa.arrays.ArrayProblems.maxOccuringCharacter;
+import static com.avengers.dsa.arrays.ArrayProblems.maxProfitStock;
+import static com.avengers.dsa.arrays.ArrayProblems.pythogorean;
+import static com.avengers.dsa.arrays.ArrayProblems.removeAdjacents;
+import static com.avengers.dsa.arrays.ArrayProblems.searchInSortedRotatedArray;
 import static com.avengers.dsa.arrays.ArrayProblems.sort012;
 import static com.avengers.dsa.arrays.ArrayProblems.sumLongestSubsequence;
 import static com.avengers.dsa.arrays.ArrayProblems.swapInGroup;
+import static com.avengers.dsa.arrays.ArrayProblems.tappingRainWater;
 import static com.avengers.dsa.arrays.ArrayProblems.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -178,4 +192,59 @@ public class ArrayProblemsTest {
 		assertEquals("998764543431", number);
 	}
 
+	@Test
+	@Ignore
+	public void _firstNonRepeatingCharacter() throws Exception {
+		char c = firstNonRepeatingCharacter("geeksforgeeksandgeeksquizfor");
+		assertTrue(c == 'a');
+	}
+
+	@Test
+	public void _searchInSortedRotatedArray() throws Exception {
+		int arr[] = { 5, 6, 7, 8, 9, 10, 1, 2, 3 };
+		int x = 3;
+		int idx = searchInSortedRotatedArray(arr, x);
+		assertEquals(8, idx);
+	}
+
+	@Test
+	@Ignore
+	public void _findMedian() throws Exception {
+		int arr1[] = { 1, 12, 15, 26, 38 };
+		int arr2[] = { 2, 13, 17, 30, 45 };
+		int idx = findMedian(arr1, arr2, 5);
+		System.out.println(idx);
+
+	}
+
+	@Test
+	@Ignore
+	public void _maxOccuringWord() throws Exception {
+		String arr[] = { "geeks", "for", "geeks", "a", "portal", "to", "learn", "can", "be", "computer", "science", "zoom",
+		        "yup", "fire", "in", "be", "data" };
+		String maxOcc = maxOccuringWord(arr);
+		assertEquals("geeks", maxOcc);
+	}
+
+	@Test
+	@Ignore
+	public void _findRepeatingAndMissing() throws Exception {
+		int[] arr = { 4, 3, 5, 2, 1, 4 };
+		int[] rm = findRepeatingAndMissing(arr);
+		assertTrue(rm[0] == 4);
+		assertTrue(rm[1] == 6);
+	}
+
+	@Test
+	public void _distinctNumbersInGroup() throws Exception {
+		int arr[] = { 1, 2, 1, 3, 4, 2, 3 };
+		int k = 4;
+		assertTrue(4 == distinctNumbersInGroup(arr, k).size());
+	}
+
+	@Test
+	public void palindrome() throws Exception {
+		String str = "I am :IronnorI Ma, i";
+		assertTrue(isPalindrome(str));
+	}
 }

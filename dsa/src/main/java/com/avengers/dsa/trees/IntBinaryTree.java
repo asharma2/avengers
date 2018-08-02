@@ -1,26 +1,97 @@
 package com.avengers.dsa.trees;
 
-public class IntBinaryTree implements ITree<Integer> {
+public class IntBinaryTree implements BinaryTree<Integer> {
 
 	protected Node root;
 
-	class Node {
-		int data;
-		Node left, right;
+	/**
+	 * The {@link MaxLevel} will hold the max level at each level
+	 * 
+	 * @author atul_sharma
+	 *
+	 */
+	class MaxLevel {
+		int max;
 
-		public Node(int data) {
-			this(data, null, null);
+		public MaxLevel setMax(int max) {
+			this.max = max;
+			return this;
+		}
+	}
+
+	/**
+	 * The {@link NodeInfo} will hold the max and min value of the descendants and
+	 * whether its bst or not
+	 * 
+	 * @author atul_sharma
+	 *
+	 */
+	class NodeInfo {
+		Node node;
+		int max;
+		int min;
+		int size;
+		int ans;
+		boolean bst;
+
+		public Node getNode() {
+			return node;
 		}
 
-		public Node(int data, Node left, Node right) {
-			this.data = data;
-			this.left = left;
-			this.right = right;
+		public NodeInfo setNode(Node node) {
+			this.node = node;
+			return this;
+		}
+
+		public int getMax() {
+			return max;
+		}
+
+		public NodeInfo setMax(int max) {
+			this.max = max;
+			return this;
+		}
+
+		public int getMin() {
+			return min;
+		}
+
+		public NodeInfo setMin(int min) {
+			this.min = min;
+			return this;
+		}
+
+		public int getSize() {
+			return size;
+		}
+
+		public NodeInfo setSize(int size) {
+			this.size = size;
+			return this;
+		}
+
+		public boolean isBst() {
+			return bst;
+		}
+
+		public NodeInfo setBst(boolean bst) {
+			this.bst = bst;
+			return this;
+		}
+
+		public int getAns() {
+			return ans;
+		}
+
+		public NodeInfo setAns(int ans) {
+			this.ans = ans;
+			return this;
 		}
 
 		@Override
 		public String toString() {
-			return "Node: " + data;
+			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans + ", bst="
+			        + bst + "]";
 		}
 	}
 
@@ -111,48 +182,15 @@ public class IntBinaryTree implements ITree<Integer> {
 		System.out.println();
 	}
 
-	private void levelOrderRecursive(Node node) {
-		if (node == null)
-			return;
-		if (node.right == null && node.left == null)
-			System.out.print(node.data + " ");
-		levelOrderRecursive(node.left);
-		levelOrderRecursive(node.right);
+	public boolean isMirror(Node that) {
+		return areNodeMirror(root, that);
 	}
 
-	private void postOrderRecursive(Node node) {
-		if (node == null)
-			return;
-		postOrderRecursive(node.left);
-		postOrderRecursive(node.right);
-		System.out.print(node.data + " ");
+	public boolean isIdentical(Node that) {
+		return areNodeIdentical(root, that);
 	}
 
-	private void preOrderRecursive(Node node) {
-		if (node == null)
-			return;
-		System.out.print(node.data + " ");
-		preOrderRecursive(node.left);
-		preOrderRecursive(node.right);
-	}
-
-	private void inOrderRecursive(Node node) {
-		if (node == null)
-			return;
-		inOrderRecursive(node.left);
-		System.out.print(node.data + " ");
-		inOrderRecursive(node.right);
-	}
-
-	class MaxLevel {
-		int max;
-
-		public MaxLevel setMax(int max) {
-			this.max = max;
-			return this;
-		}
-	}
-
+	@Override
 	public void printLeftView() {
 		printLeftView(root, 1, new MaxLevel().setMax(0));
 		System.out.println();
@@ -184,84 +222,6 @@ public class IntBinaryTree implements ITree<Integer> {
 		return isBst(node.left, minValue, node.data - 1) && isBst(node.right, node.data + 1, maxValue);
 	}
 
-	public boolean isMirror(Node that) {
-		return isMirror(root, that);
-	}
-
-	public boolean isIdentical(Node that) {
-		return isIdentical(root, that);
-	}
-
-	class NodeInfo {
-		Node node;
-		int max;
-		int min;
-		int size;
-		int ans;
-		boolean bst;
-
-		public Node getNode() {
-			return node;
-		}
-
-		public NodeInfo setNode(Node node) {
-			this.node = node;
-			return this;
-		}
-
-		public int getMax() {
-			return max;
-		}
-
-		public NodeInfo setMax(int max) {
-			this.max = max;
-			return this;
-		}
-
-		public int getMin() {
-			return min;
-		}
-
-		public NodeInfo setMin(int min) {
-			this.min = min;
-			return this;
-		}
-
-		public int getSize() {
-			return size;
-		}
-
-		public NodeInfo setSize(int size) {
-			this.size = size;
-			return this;
-		}
-
-		public boolean isBst() {
-			return bst;
-		}
-
-		public NodeInfo setBst(boolean bst) {
-			this.bst = bst;
-			return this;
-		}
-
-		public int getAns() {
-			return ans;
-		}
-
-		public NodeInfo setAns(int ans) {
-			this.ans = ans;
-			return this;
-		}
-
-		@Override
-		public String toString() {
-			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans + ", bst="
-			        + bst + "]";
-		}
-
-	}
-
 	public int largestBst() {
 		NodeInfo ni = largestBst(root);
 		return ni.ans;
@@ -277,35 +237,63 @@ public class IntBinaryTree implements ITree<Integer> {
 		NodeInfo left = largestBst(node.left);
 		NodeInfo right = largestBst(node.right);
 
-		NodeInfo ret = new NodeInfo().setSize(1 + left.size + right.size);
+		NodeInfo result = new NodeInfo().setSize(1 + left.size + right.size);
 
 		if (left.bst && right.bst && left.max < node.data && node.data < right.min) {
-			ret.min = Math.min(left.min, Math.min(right.min, node.data));
-			ret.max = Math.max(right.max, Math.max(left.max, node.data));
-			ret.node = node;
-			ret.bst = true;
-			return ret;
+			result.min = Math.min(left.min, Math.min(right.min, node.data));
+			result.max = Math.max(right.max, Math.max(left.max, node.data));
+			result.node = node;
+			result.bst = true;
+			return result;
 		}
 
-		ret.ans = Math.max(left.size, right.size);
-		ret.bst = false;
-		return ret;
+		result.ans = Math.max(left.size, right.size);
+		result.bst = false;
+		return result;
 	}
 
-	private boolean isIdentical(Node _this, Node _that) {
-		if (_this == null && _that == null)
-			return true;
-		if (_this != null && _that != null && _this.data == _that.data)
-			return isIdentical(_this.left, _that.left) && isMirror(_this.right, _that.right);
-		return false;
+	@Override
+	public int height() {
+		return height(root);
 	}
 
-	private boolean isMirror(Node _this, Node _that) {
-		if (_this == null && _that == null)
-			return true;
-		if (_this != null && _that != null && _this.data == _that.data)
-			return isMirror(_this.left, _that.right) && isMirror(_this.right, _that.left);
-		return false;
+	@Override
+	public int diameter() {
+		return diameter(root);
+	}
+
+	@Override
+	public int countLeaf() {
+		return countLeaf(root);
+	}
+
+	@Override
+	public boolean isHeightBalanced() {
+		return isHeightBalanced(root);
+	}
+
+	@Override
+	public void mirror() throws Exception {
+		root = mirror(root);
+	}
+
+	@Override
+	public int lowestCommonAncestor(int a, int b) {
+		Node lowest = lowestCommonAncestor(root, a, b);
+		return lowest != null ? lowest.data : 0;
+	}
+
+	private Node lowestCommonAncestor(Node node, int a, int b) {
+		if (node == null)
+			return null;
+
+		if (node.data > a && node.data > b)
+			return lowestCommonAncestor(node.left, a, b);
+
+		if (node.data < a && node.data < b)
+			return lowestCommonAncestor(node.right, a, b);
+
+		return node;
 	}
 
 }

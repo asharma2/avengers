@@ -23,4 +23,18 @@ public interface ITree<T> {
 	boolean search(T data) throws Exception;
 
 	void print(Option option, Traversal traversal);
+
+	void printLeftView();
+
+	int height();
+
+	int countLeaf();
+
+	int diameter();
+
+	boolean isHeightBalanced();
+
+	void mirror() throws Exception;
+
+	int lowestCommonAncestor(int a, int b);
 }

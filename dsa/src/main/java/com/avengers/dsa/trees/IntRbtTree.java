@@ -1,5 +1,5 @@
 package com.avengers.dsa.trees;
 
-public class IntRbtTree {
+public class IntRbtTree extends IntBinaryTree {
 
 }
