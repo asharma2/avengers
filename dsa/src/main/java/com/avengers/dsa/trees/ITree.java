@@ -37,4 +37,8 @@ public interface ITree<T> {
 	void mirror() throws Exception;
 
 	int lowestCommonAncestor(int a, int b);
+
+	int longestConsecutiveSequence();
+
+	void printBottomView();
 }

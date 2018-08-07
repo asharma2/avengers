@@ -9,6 +9,7 @@ public interface BinaryTree<T> extends ITree<T> {
 	 *
 	 */
 	public class Node {
+		int hd;
 		int data;
 		Node left, right;
 

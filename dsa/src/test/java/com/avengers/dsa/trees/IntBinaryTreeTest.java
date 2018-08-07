@@ -168,6 +168,7 @@ public class IntBinaryTreeTest {
 	}
 
 	@Test
+	@Ignore
 	public void _lowestCommonAnscestor() throws Exception {
 		IntBinaryTree tree = new IntBinaryTree();
 		tree.root = new Node(20);
@@ -182,4 +183,39 @@ public class IntBinaryTreeTest {
 		assertTrue(12 == tree.lowestCommonAncestor(a, b));
 	}
 
+	@Test
+	@Ignore
+	public void _longestConsecutiveSequence() throws Exception {
+		IntBinaryTree tree = new IntBinaryTree();
+
+		tree.root = new Node(6);
+		tree.root.left = new Node(7);
+		tree.root.left.left = new Node(8);
+		tree.root.left.left.left = new Node(9);
+
+		tree.root.right = new Node(9);
+		tree.root.right.right = new Node(10);
+		tree.root.right.right.right = new Node(11);
+		tree.root.right.right.right.right = new Node(12);
+		tree.root.right.right.right.right.right = new Node(13);
+
+		int seq = tree.longestConsecutiveSequence();
+		System.out.println(seq);
+	}
+
+	@Test
+	public void _printBottomView() {
+		Node root = new Node(20);
+		root.left = new Node(8);
+		root.right = new Node(22);
+		root.left.left = new Node(5);
+		root.left.right = new Node(3);
+		root.right.left = new Node(4);
+		root.right.right = new Node(25);
+		root.left.right.left = new Node(10);
+		root.left.right.right = new Node(14);
+		IntBinaryTree ibt = new IntBinaryTree();
+		ibt.root = root;
+		ibt.printBottomView();
+	}
 }

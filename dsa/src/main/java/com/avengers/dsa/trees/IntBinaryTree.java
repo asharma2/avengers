@@ -1,5 +1,14 @@
 package com.avengers.dsa.trees;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeMap;
+
 public class IntBinaryTree implements BinaryTree<Integer> {
 
 	protected Node root;
@@ -279,21 +288,150 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 
 	@Override
 	public int lowestCommonAncestor(int a, int b) {
-		Node lowest = lowestCommonAncestor(root, a, b);
-		return lowest != null ? lowest.data : 0;
+		Node lowest = lowestCommonAncestorInBst(root, a, b);
+		return lowest != null ? lowest.data : lowestCommonAncestor(root, a, b);
 	}
 
-	private Node lowestCommonAncestor(Node node, int a, int b) {
+	private int lowestCommonAncestor(Node node, int a, int b) {
+		if (node == null)
+			return -1;
+		List<Integer> path1 = new LinkedList<>();
+		List<Integer> path2 = new LinkedList<>();
+		if (!findPath(node, a, path1) || !findPath(node, b, path2)) {
+			System.out.println((path1.size() > 0) ? "a is present" : "b is missing");
+			System.out.println((path2.size() > 0) ? "b is present" : "a is missing");
+			return -1;
+		}
+		int i;
+		for (i = 0; i < path1.size() && i < path2.size(); i++) {
+			if (!path1.get(i).equals(path2.get(i))) {
+				break;
+			}
+		}
+		return path1.get(i - 1);
+	}
+
+	private boolean findPath(Node root, int n, List<Integer> path) {
+		if (root == null) {
+			return false;
+		}
+		path.add(root.data);
+		if (root.data == n) {
+			return true;
+		}
+		if (root.left != null && findPath(root.left, n, path)) {
+			return true;
+		}
+
+		if (root.right != null && findPath(root.right, n, path)) {
+			return true;
+		}
+		path.remove(path.size() - 1);
+		return false;
+	}
+
+	private Node lowestCommonAncestorInBst(Node node, int a, int b) {
 		if (node == null)
 			return null;
 
 		if (node.data > a && node.data > b)
-			return lowestCommonAncestor(node.left, a, b);
+			return lowestCommonAncestorInBst(node.left, a, b);
 
 		if (node.data < a && node.data < b)
-			return lowestCommonAncestor(node.right, a, b);
+			return lowestCommonAncestorInBst(node.right, a, b);
 
 		return node;
+	}
+
+	@Override
+	public int longestConsecutiveSequence() {
+		MaxSequence ms = new MaxSequence();
+		longestConsecutiveSequence(root, root.data, ms);
+		return ms.max;
+	}
+
+	class MaxSequence {
+		int max;
+		int count;
+
+		public int getMax() {
+			return max;
+		}
+
+		public MaxSequence setMax(int max) {
+			this.max = max;
+			return this;
+		}
+
+		public int getCount() {
+			return count;
+		}
+
+		public MaxSequence setCount(int count) {
+			this.count = count;
+			return this;
+		}
+
+	}
+
+	private void longestConsecutiveSequence(Node node, int expectedData, MaxSequence ms) {
+		if (node == null)
+			return;
+
+		if (node.data == expectedData) {
+			ms.count++;
+			if (ms.count > ms.max) {
+				ms.max = ms.count;
+			}
+		} else {
+			ms.count = 1;
+		}
+		longestConsecutiveSequence(node.left, node.data + 1, ms);
+		longestConsecutiveSequence(node.right, node.data + 1, ms);
+	}
+
+	@Override
+	public void printBottomView() {
+		printBottomView(root);
+	}
+
+	private void printBottomView(Node node) {
+		if (node == null)
+			return;
+
+		int hd = 0;
+
+		Map<Integer, Integer> map = new TreeMap<>();
+		Queue<Node> queue = new LinkedList<Node>();
+
+		node.hd = hd;
+		queue.add(node);
+
+		while (!queue.isEmpty()) {
+
+			Node x = queue.remove();
+			hd = x.hd;
+			map.put(hd, x.data);
+
+			if (x.left != null) {
+				x.left.hd = hd - 1;
+				queue.add(x.left);
+			}
+
+			if (x.right != null) {
+				x.right.hd = hd + 1;
+				queue.add(x.right);
+			}
+		}
+
+		Set<Entry<Integer, Integer>> set = map.entrySet();
+
+		Iterator<Entry<Integer, Integer>> iterator = set.iterator();
+
+		while (iterator.hasNext()) {
+			Map.Entry<Integer, Integer> me = iterator.next();
+			System.out.print(me.getValue() + " ");
+		}
 	}
 
 }

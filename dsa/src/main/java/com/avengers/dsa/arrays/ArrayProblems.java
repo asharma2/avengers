@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -566,6 +567,68 @@ public class ArrayProblems {
 		}
 
 		return true;
+	}
+
+	/**
+	 * TODO:
+	 * 
+	 * @param strs
+	 * @param k
+	 * @return
+	 */
+	public static String kthOccurence(String[] strs, int k) {
+		Map<String, Integer> wCounts = new LinkedHashMap<>();
+		for (String str : strs) {
+			int count = 1;
+			if (!wCounts.containsKey(str)) {
+				wCounts.put(str, count);
+			} else {
+				count = wCounts.get(str) + 1;
+				wCounts.put(str, count);
+			}
+		}
+		return null;
+	}
+
+	public static int possibleString(int n, int r, int g, int b) {
+		int fact[] = new int[n + 1];
+		fact[0] = 1;
+		for (int i = 1; i <= n; i++)
+			fact[i] = fact[i - 1] * i;
+		int left = n - (r + g + b);
+		int sum = 0;
+		for (int i = 0; i <= left; i++) {
+			for (int j = 0; j <= left - i; j++) {
+				int k = left - (i + j);
+				sum = sum + fact[n] / (fact[i + r] * fact[j + b] * fact[k + g]);
+			}
+		}
+		return sum;
+	}
+
+	public static void permute(String s) {
+		permute(s, 0, s.length() - 1);
+	}
+
+	private static void permute(String str, int s, int e) {
+		if (s == e)
+			System.out.println(str);
+		else {
+			for (int i = s; i <= e; i++) {
+				str = swap(str, s, i);
+				permute(str, s + 1, e);
+				str = swap(str, s, i);
+			}
+		}
+	}
+
+	private static String swap(String a, int i, int j) {
+		char temp;
+		char[] charArray = a.toCharArray();
+		temp = charArray[i];
+		charArray[i] = charArray[j];
+		charArray[j] = temp;
+		return String.valueOf(charArray);
 	}
 
 	private static void swapInGroup(int[] arr, int s, int e) {
