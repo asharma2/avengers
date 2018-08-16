@@ -200,6 +200,7 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _searchInSortedRotatedArray() throws Exception {
 		int arr[] = { 5, 6, 7, 8, 9, 10, 1, 2, 3 };
 		int x = 3;
@@ -236,6 +237,7 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _distinctNumbersInGroup() throws Exception {
 		int arr[] = { 1, 2, 1, 3, 4, 2, 3 };
 		int k = 4;
@@ -243,8 +245,40 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void palindrome() throws Exception {
 		String str = "I am :IronnorI Ma, i";
 		assertTrue(isPalindrome(str));
+	}
+
+	@Test
+	@Ignore
+	public void _minDiffTowerHeight() throws Exception {
+		assertEquals(6, minDiffTowerHeight(new int[] { 2, 4, 6, 8, 10, 12 }, 6, 2));
+	}
+
+	@Test
+	@Ignore
+	public void _minimizeSumOfProduct() throws Exception {
+		int a[] = { 3, 1, 1 }, b[] = { 6, 5, 4 };
+		assertTrue(23 == minimizeSumOfProduct(a, b));
+	}
+
+	@Test
+	@Ignore
+	public void _findFirstAndLastOccurence() throws Exception {
+		int[] a = { 1, 3, 5, 5, 5, 5, 67, 123, 125 };
+		int res[] = findFirstAndLastOccurence(a, 5);
+		assertTrue(2 == res[0]);
+		assertTrue(5 == res[1]);
+	}
+
+	@Test
+	public void _knapsack() throws Exception {
+		int vals[] = new int[] { 60, 100, 120 };
+		int wght[] = new int[] { 10, 20, 30 };
+		int w = 50;
+		int wg = knapsack(w, wght, vals);
+		System.out.println(wg);
 	}
 }

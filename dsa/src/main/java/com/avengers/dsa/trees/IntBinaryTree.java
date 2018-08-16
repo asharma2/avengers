@@ -12,6 +12,7 @@ import java.util.TreeMap;
 public class IntBinaryTree implements BinaryTree<Integer> {
 
 	protected Node root;
+	protected Node head;
 
 	/**
 	 * The {@link MaxLevel} will hold the max level at each level
@@ -228,7 +229,7 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 		int data = node.data;
 		if (data < minValue && data > maxValue)
 			return false;
-		return isBst(node.left, minValue, node.data - 1) && isBst(node.right, node.data + 1, maxValue);
+		return isBst(node.left, minValue, data - 1) && isBst(node.right, data + 1, maxValue);
 	}
 
 	public int largestBst() {
@@ -432,6 +433,48 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 			Map.Entry<Integer, Integer> me = iterator.next();
 			System.out.print(me.getValue() + " ");
 		}
+	}
+
+	@Override
+	public void connectSameLevel() {
+		Node node = root;
+		node.next = null;
+		connectSameLevel(node);
+	}
+
+	private void connectSameLevel(Node node) {
+		if (node == null)
+			return;
+
+		if (node.left != null)
+			node.left.next = node.right;
+
+		if (node.right != null)
+			node.right.next = (node.next != null) ? node.next.left : null;
+
+		connectSameLevel(node.left);
+		connectSameLevel(node.right);
+	}
+
+	@Override
+	public void convertToDLL() {
+		convertToDLL(root);
+	}
+
+	protected static Node prev;
+
+	private void convertToDLL(Node node) {
+		if (node == null)
+			return;
+		convertToDLL(node.left);
+		if (prev == null)
+			head = node;
+		else {
+			node.left = prev;
+			prev.right = node;
+		}
+		prev = node;
+		convertToDLL(node.right);
 	}
 
 }

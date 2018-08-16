@@ -316,17 +316,33 @@ public class ArrayProblems {
 	}
 
 	public static int largestSequenceOf0And1(int[] arr) {
-		int totalOne = 0;
-		int s = 0, e = arr.length - 1;
-		while (s <= e) {
-			if (s == e) {
-				totalOne += arr[s++];
-			} else {
-				totalOne += arr[s++] + arr[e--];
-			}
+		Map<Integer, Integer> hM = new HashMap<Integer, Integer>();
+
+		int sum = 0; // Initialize sum of elements
+		int max_len = 0; // Initialize result
+		int ending_index = -1;
+		int start_index = 0;
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			arr[i] = (arr[i] == 0) ? -1 : 1;
 		}
-		int totalZero = arr.length - totalOne;
-		return (totalOne == arr.length || totalOne == 0) ? -1 : 2 * Math.min(totalOne, totalZero);
+
+		for (int i = 0; i < n; i++) {
+			sum += arr[i];
+			if (sum == 0) {
+				max_len = i + 1;
+				ending_index = i;
+			}
+
+			if (hM.containsKey(sum)) {
+				if (max_len < i - hM.get(sum + n)) {
+					max_len = i - hM.get(sum + n);
+					ending_index = i;
+				}
+			} else // Else put this sum in hash table
+				hM.put(sum + n, i);
+		}
+		return max_len;
 	}
 
 	public static char maxOccuringCharacter(String str) {
@@ -622,6 +638,61 @@ public class ArrayProblems {
 		}
 	}
 
+	public static void floodFill(int[][] screen, int M, int N, int x, int y, int newC) {
+		int prevC = screen[x][y];
+		floodFill(screen, M, N, x, y, prevC, newC);
+	}
+
+	private static void floodFill(int[][] screen, int M, int N, int x, int y, int prevC, int newC) {
+		if (x < 0 || x >= M || y < 0 || y >= N)
+			return;
+		if (screen[x][y] != prevC)
+			return;
+		floodFill(screen, M, N, x + 1, y, prevC, newC);
+		floodFill(screen, M, N, x - 1, y, prevC, newC);
+		floodFill(screen, M, N, x, y + 1, prevC, newC);
+		floodFill(screen, M, N, x, y - 1, prevC, newC);
+	}
+
+	public static int minDiffTowerHeight(int arr[], int n, int k) {
+		Arrays.sort(arr);
+		int ans = arr[n - 1] - arr[0];
+		int small = arr[0] + k;
+		int big = arr[n - 1] - k;
+		if (small > big) {
+			int tmp = small;
+			small = big;
+			big = tmp;
+		} else {
+			for (int i = 1; i < n; i++) {
+				int subtract = arr[i] - k;
+				int add = arr[i] + k;
+				if (subtract >= small || add <= big)
+					continue;
+				if (big - subtract <= add - small)
+					small = subtract;
+				else
+					big = add;
+			}
+		}
+		return Math.min(ans, big - small);
+	}
+
+	public static int numberOfPaths(int m, int n) {
+		int count[][] = new int[m][n];
+		for (int i = 0; i < m; i++)
+			count[i][0] = 1;
+
+		for (int j = 0; j < n; j++)
+			count[0][j] = 1;
+
+		for (int i = 1; i < m; i++) {
+			for (int j = 1; j < n; j++)
+				count[i][j] = count[i - 1][j] + count[i][j - 1];
+		}
+		return count[m - 1][n - 1];
+	}
+
 	private static String swap(String a, int i, int j) {
 		char temp;
 		char[] charArray = a.toCharArray();
@@ -643,4 +714,81 @@ public class ArrayProblems {
 		arr[j] = t;
 	}
 
+	public static int minimizeSumOfProduct(int[] a, int b[]) {
+		if (a.length != b.length)
+			return -1;
+		Arrays.sort(a);
+		Arrays.sort(b);
+		int n = a.length;
+		int sum = 0;
+		for (int i = 0; i < n; i++) {
+			sum += (a[i] * b[n - i - 1]);
+		}
+		return sum;
+	}
+
+	public static int[] findFirstAndLastOccurence(int arr[], int x) {
+		int[] occ = { Integer.MAX_VALUE, Integer.MIN_VALUE };
+		findFirstAndLastOccurence(arr, x, 0, arr.length - 1, occ);
+		return occ;
+	}
+
+	private static void findFirstAndLastOccurence(int[] arr, int x, int s, int e, int[] occ) {
+		if (s < e) {
+			int m = (s + e) / 2;
+			if (arr[m] == x) {
+				if (occ[0] > m) {
+					occ[0] = m;
+					findFirstAndLastOccurence(arr, x, m - 2, m - 1, occ);
+				}
+				if (occ[1] < m) {
+					occ[1] = m;
+					findFirstAndLastOccurence(arr, x, m + 1, m + 2, occ);
+				}
+			}
+			if (arr[m] > x) {
+				findFirstAndLastOccurence(arr, x, 0, m - 1, occ);
+			} else {
+				findFirstAndLastOccurence(arr, x, m + 1, e, occ);
+			}
+		}
+	}
+
+	public static int knapsack(int w, int[] wgt, int[] vals) {
+		return knapsack(w, wgt, vals, wgt.length);
+	}
+
+	private static int knapsack(int w, int[] wgt, int[] vals, int n) {
+		if (n == 0 || w == 0)
+			return 0;
+
+		if (wgt[n - 1] > w)
+			return knapsack(w, wgt, vals, n - 1);
+
+		return Math.max(vals[n - 1] + knapsack(w - wgt[n - 1], wgt, vals, n - 1), knapsack(w, wgt, vals, n - 1));
+	}
+
+	public static int unboundedknapsack(int w, int[] val, int[] wght) {
+		int n = val.length;
+		int dp[] = new int[w + 1];
+		for (int i = 0; i <= w; i++) {
+			for (int j = 0; j < n; j++) {
+				if (wght[j] <= i) {
+					dp[i] = Math.max(dp[i], dp[i - wght[j]] + val[j]);
+				}
+			}
+		}
+		return dp[w];
+	}
+
+	public static int minCost(int[] cost) {
+		int dp1 = 0, dp2 = 0;
+		int n = cost.length;
+		for (int i = 0; i < n; i++) {
+			int dp0 = cost[i] + Math.min(dp1, dp2);
+			dp2 = dp1;
+			dp1 = dp0;
+		}
+		return Math.min(dp1, dp2);
+	}
 }

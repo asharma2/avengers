@@ -41,4 +41,8 @@ public interface ITree<T> {
 	int longestConsecutiveSequence();
 
 	void printBottomView();
+
+	void connectSameLevel();
+	
+	void convertToDLL();
 }

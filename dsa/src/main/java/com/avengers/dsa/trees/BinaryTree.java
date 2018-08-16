@@ -11,7 +11,7 @@ public interface BinaryTree<T> extends ITree<T> {
 	public class Node {
 		int hd;
 		int data;
-		Node left, right;
+		Node left, right, next;
 
 		public Node(int data) {
 			this(data, null, null);

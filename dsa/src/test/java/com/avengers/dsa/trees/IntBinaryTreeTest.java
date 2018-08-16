@@ -47,7 +47,7 @@ public class IntBinaryTreeTest {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void isBst() throws Exception {
 		IntBinaryTree ibt = new IntBinaryTree();
 		ibt.root = new Node(10);
@@ -204,6 +204,7 @@ public class IntBinaryTreeTest {
 	}
 
 	@Test
+	@Ignore
 	public void _printBottomView() {
 		Node root = new Node(20);
 		root.left = new Node(8);
@@ -218,4 +219,34 @@ public class IntBinaryTreeTest {
 		ibt.root = root;
 		ibt.printBottomView();
 	}
+
+	@Test
+	@Ignore
+	public void _connectSameLevel() {
+		Node root = new Node(20);
+		root.left = new Node(8);
+		root.right = new Node(22);
+
+		root.left.left = new Node(5);
+		root.left.right = new Node(3);
+		root.right.left = new Node(4);
+		root.right.right = new Node(25);
+
+		IntBinaryTree ibt = new IntBinaryTree();
+		ibt.root = root;
+		ibt.connectSameLevel();
+	}
+
+	@Test
+	public void _convertToDLL() throws Exception {
+		IntBinaryTree intBst = new IntBinaryTree();
+		intBst.root = new Node(10);
+		intBst.root.left = new Node(12);
+		intBst.root.right = new Node(15);
+		intBst.root.left.left = new Node(25);
+		intBst.root.left.right = new Node(30);
+		intBst.root.right.left = new Node(36);
+		intBst.convertToDLL();
+	}
+
 }
