@@ -274,11 +274,20 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _knapsack() throws Exception {
 		int vals[] = new int[] { 60, 100, 120 };
 		int wght[] = new int[] { 10, 20, 30 };
 		int w = 50;
 		int wg = knapsack(w, wght, vals);
-		System.out.println(wg);
+		assertTrue(220 == wg);
+	}
+
+	@Test
+	@Ignore
+	public void _coinChange() throws Exception {
+		int arr[] = { 1, 2, 3 };
+		int count = coinChange(arr, 4);
+		assertTrue(4 == count);
 	}
 }

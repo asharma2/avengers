@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 
 public class ArrayProblems {
 
@@ -488,8 +489,7 @@ public class ArrayProblems {
 		if (mid > low && arr[mid] < arr[mid - 1])
 			return (mid - 1);
 
-		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1)
-		        : findPivotOfSortedRotatedArray(arr, mid + 1, high);
+		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1) : findPivotOfSortedRotatedArray(arr, mid + 1, high);
 	}
 
 	public static String maxOccuringWord(String[] strs) {
@@ -790,5 +790,66 @@ public class ArrayProblems {
 			dp1 = dp0;
 		}
 		return Math.min(dp1, dp2);
+	}
+
+	public static int coinChange(int[] arr, int sum) {
+		return coinChange(arr, sum, arr.length);
+	}
+
+	private static int coinChange(int[] arr, int sum, int n) {
+		if (sum == 0)
+			return 1;
+
+		if (sum < 0)
+			return 0;
+
+		if (n <= 0 && sum >= 1)
+			return 0;
+
+		return coinChange(arr, sum, n - 1) + coinChange(arr, sum - arr[n - 1], n);
+	}
+
+	public static int numberOfWays(int n) {
+		if (n < 0)
+			return 0;
+		if (n == 0)
+			return 1;
+		return numberOfWays(n - 1) + numberOfWays(n - 2) + numberOfWays(n - 3);
+	}
+
+	public static int eggDrop(int n, int k) {
+		if (k == 1 || k == 0)
+			return k;
+		if (n == 1)
+			return k;
+		int min = Integer.MAX_VALUE, x, res;
+
+		for (x = 1; x <= k; x++) {
+			res = Math.max(eggDrop(n - 1, x - 1), eggDrop(n, k - x));
+			if (res < min)
+				min = res;
+		}
+
+		return min + 1;
+	}
+
+	public static int longestSubString1GtThan0(int[] arr) {
+		int maxlen = Integer.MIN_VALUE, sum = 0, n = arr.length;
+		TreeMap<Integer, Integer> prevSum = new TreeMap<>();
+		for (int i = 0; i < n; i++) {
+			if (arr[i] == 1)
+				sum++;
+			else
+				sum--;
+			if (sum > 0) {
+				maxlen = i + 1;
+			} else if (sum < 0) {
+				if (prevSum.get(sum - 1) != prevSum.lastEntry().getValue()) {
+
+				}
+			}
+
+		}
+		return maxlen;
 	}
 }
