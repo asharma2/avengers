@@ -221,8 +221,8 @@ public class ArrayProblemsTest {
 	@Test
 	@Ignore
 	public void _maxOccuringWord() throws Exception {
-		String arr[] = { "geeks", "for", "geeks", "a", "portal", "to", "learn", "can", "be", "computer", "science", "zoom",
-		        "yup", "fire", "in", "be", "data" };
+		String arr[] = { "geeks", "for", "geeks", "a", "portal", "to", "learn", "can", "be", "computer", "science",
+				"zoom", "yup", "fire", "in", "be", "data" };
 		String maxOcc = maxOccuringWord(arr);
 		assertEquals("geeks", maxOcc);
 	}
@@ -289,5 +289,13 @@ public class ArrayProblemsTest {
 		int arr[] = { 1, 2, 3 };
 		int count = coinChange(arr, 4);
 		assertTrue(4 == count);
+	}
+
+	@Test
+	public void _rearrangeOddAndEven() throws Exception {
+		int[] arr = { 12, 34, 45, 9, 8, 90, 3 };
+		rearrangeOddAndEven(arr);
+		System.out.println(Arrays.toString(arr));
+		assertTrue(arr[2] == 90);
 	}
 }

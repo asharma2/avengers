@@ -100,8 +100,8 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 
 		@Override
 		public String toString() {
-			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans + ", bst="
-			        + bst + "]";
+			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans
+					+ ", bst=" + bst + "]";
 		}
 	}
 
@@ -477,4 +477,46 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 		convertToDLL(node.right);
 	}
 
+	@Override
+	public int sumOfCousin(int data) {
+		return sumOfCousin(root, data);
+	}
+
+	private int sumOfCousin(Node node, int data) {
+		if (node == null)
+			return -1;
+		if (node.data == data)
+			return -1;
+		int cSum = 0;
+		int size;
+		boolean found = false;
+		Queue<Node> queue = new LinkedList<>();
+		queue.add(node);
+		while (!queue.isEmpty()) {
+			if (found)
+				return cSum;
+			size = queue.size();
+			cSum = 0;
+			while (size > 0) {
+				Node x = queue.poll();
+				if ((x.left != null && x.left.data == data) || (x.right != null && x.right.data == data)) {
+					found = true;
+				} else {
+					if (x.left != null) {
+						cSum += node.left.data;
+						queue.add(x.left);
+					}
+					if (x.right != null) {
+						cSum += node.right.data;
+						queue.add(x.right);
+					}
+				}
+				size--;
+			}
+		}
+
+		return -1;
+	}
+	
+	
 }

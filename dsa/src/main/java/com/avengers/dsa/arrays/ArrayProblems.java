@@ -1,3 +1,4 @@
+
 package com.avengers.dsa.arrays;
 
 import java.util.Arrays;
@@ -489,7 +490,8 @@ public class ArrayProblems {
 		if (mid > low && arr[mid] < arr[mid - 1])
 			return (mid - 1);
 
-		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1) : findPivotOfSortedRotatedArray(arr, mid + 1, high);
+		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1)
+				: findPivotOfSortedRotatedArray(arr, mid + 1, high);
 	}
 
 	public static String maxOccuringWord(String[] strs) {
@@ -833,6 +835,12 @@ public class ArrayProblems {
 		return min + 1;
 	}
 
+	/**
+	 * TODO
+	 * 
+	 * @param arr
+	 * @return
+	 */
 	public static int longestSubString1GtThan0(int[] arr) {
 		int maxlen = Integer.MIN_VALUE, sum = 0, n = arr.length;
 		TreeMap<Integer, Integer> prevSum = new TreeMap<>();
@@ -851,5 +859,25 @@ public class ArrayProblems {
 
 		}
 		return maxlen;
+	}
+
+	public static void rearrangeOddAndEven(int[] arr) {
+		int n = arr.length;
+		int left = 0, right = n - 1;
+		while (left < right) {
+
+			if (arr[left] % 2 == 0 && left < right) {
+				left++;
+				continue;
+			}
+
+			if (arr[right] % 2 == 1 && left < right) {
+				right--;
+				continue;
+			}
+			if (left < right)
+				swap(arr, left++, right--);
+
+		}
 	}
 }

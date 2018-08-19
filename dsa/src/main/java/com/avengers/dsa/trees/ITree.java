@@ -43,6 +43,8 @@ public interface ITree<T> {
 	void printBottomView();
 
 	void connectSameLevel();
-	
+
 	void convertToDLL();
+
+	int sumOfCousin(int data);
 }
