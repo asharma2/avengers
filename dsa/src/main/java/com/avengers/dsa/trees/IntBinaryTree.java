@@ -179,6 +179,7 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 		case NonRecursive:
 			switch (traversal) {
 			case InOrder:
+				inOrder(root);
 				break;
 			case PreOrder:
 				break;
@@ -190,6 +191,9 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 			break;
 		}
 		System.out.println();
+	}
+
+	private void inOrder(Node node) {
 	}
 
 	public boolean isMirror(Node that) {
@@ -517,6 +521,45 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 
 		return -1;
 	}
-	
-	
+
+	public int maxDepth(Node node) {
+		if (node == null)
+			return 0;
+		int lHeight = maxDepth(node.left);
+		int rHeight = maxDepth(node.right);
+		return (lHeight > rHeight) ? lHeight + 1 : rHeight + 1;
+	}
+
+	public boolean printAncestors(Node node, int x) {
+		if (node == null)
+			return false;
+		if (node.data == x)
+			return true;
+		if (printAncestors(node.left, x) || printAncestors(node.right, x)) {
+			System.out.println(node.data);
+			return true;
+		}
+		return false;
+	}
+
+	public int maxWidth(Node node) {
+		int height = height(node);
+		int width, maxWidth = Integer.MIN_VALUE;
+		for (int i = 1; i <= height; i++) {
+			width = width(node, i);
+			maxWidth = Math.max(maxWidth, width);
+		}
+		return maxWidth;
+	}
+
+	private int width(Node node, int level) {
+		if (node == null)
+			return 0;
+		if (level == 1)
+			return 1;
+		if (level > 1)
+			return width(node.left, level - 1) + width(node.right, level - 1);
+		return 0;
+	}
+
 }

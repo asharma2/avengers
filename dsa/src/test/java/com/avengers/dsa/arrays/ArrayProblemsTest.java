@@ -292,10 +292,17 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _rearrangeOddAndEven() throws Exception {
 		int[] arr = { 12, 34, 45, 9, 8, 90, 3 };
 		rearrangeOddAndEven(arr);
 		System.out.println(Arrays.toString(arr));
 		assertTrue(arr[2] == 90);
+	}
+
+	@Test
+	public void _findLast2Digits() throws Exception {
+		int n = 10;
+		assertEquals(24, findLast2Digits((int) Math.pow(2, n)));
 	}
 }

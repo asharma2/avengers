@@ -880,4 +880,202 @@ public class ArrayProblems {
 
 		}
 	}
+
+	public static int shortestCommonSubsequence(String s1, String s2) {
+		return shortestCommonSubsequence(s1, s2, s1.length(), s2.length());
+	}
+
+	private static int shortestCommonSubsequence(String s1, String s2, int m, int n) {
+		if (m == 0)
+			return 0;
+		if (n == 0)
+			return 0;
+		if (s1.charAt(m - 1) == s2.charAt(n - 1))
+			return 1 + shortestCommonSubsequence(s1, s2, m - 1, n - 1);
+		return 1 + Math.min(shortestCommonSubsequence(s1, s2, m - 1, n), shortestCommonSubsequence(s1, s2, m, n - 1));
+	}
+
+	static class Sequence {
+		int max;
+
+		public Sequence setMax(int max) {
+			this.max = max;
+			return this;
+		}
+	}
+
+	public static int longestIncreasingSubSequence(int[] arr) {
+		Sequence seq = new Sequence().setMax(1);
+		longestIncreasingSubSequence(arr, arr.length, seq);
+		return seq.max;
+	}
+
+	private static int longestIncreasingSubSequence(int[] arr, int n, Sequence seq) {
+		if (n == 1)
+			return 1;
+		int res, max_ending_here = 1;
+		for (int i = 1; i < n; i++) {
+			res = longestIncreasingSubSequence(arr, i, seq);
+			if (arr[i - 1] < arr[n - 1] && res + 1 > max_ending_here) {
+				max_ending_here = res + 1;
+			}
+		}
+		if (seq.max < max_ending_here) {
+			seq.max = max_ending_here;
+		}
+		return max_ending_here;
+	}
+
+	public static int printCountRec(int dist) {
+		if (dist < 0)
+			return 0;
+		if (dist == 0)
+			return 1;
+		return printCountRec(dist - 1) + printCountRec(dist - 2) + printCountRec(dist - 3);
+	}
+
+	public static int findMinRecursion(int[] arr) {
+		int sumTotal = 0;
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			sumTotal += arr[i];
+		}
+		return findMinRecursion(arr, n, 0, sumTotal);
+	}
+
+	private static int findMinRecursion(int[] arr, int i, int sumCal, int sumTotal) {
+		if (i == 0)
+			return Math.abs((sumTotal - sumCal) - sumCal);
+		return Math.min(findMinRecursion(arr, i - 1, sumCal + arr[i - 1], sumTotal),
+				findMinRecursion(arr, i - 1, sumCal, sumTotal));
+	}
+
+	/**
+	 * <code>
+	 * arr[] = {1, 5, 11, 5}
+	 * Output: true 
+	 * The array can be partitioned as {1, 5, 5} and {11}
+	 * </code>
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	public static boolean partition(int[] arr) {
+		int n = arr.length;
+		int sum = 0;
+		for (int i = 0; i < n; i++)
+			sum += arr[i];
+		if (sum % 2 != 0)
+			return false;
+		return partition(arr, n, sum / 2);
+	}
+
+	private static boolean partition(int[] arr, int n, int sum) {
+		if (sum == 0)
+			return true;
+		if (n == 0 && sum != 0)
+			return false;
+		if (arr[n - 1] > sum)
+			return partition(arr, n - 1, sum);
+
+		return partition(arr, n - 1, sum) || partition(arr, n, sum - arr[n - 1]);
+	}
+
+	public static int findLongestPath(int[][] arr) {
+		int row = arr.length;
+		int col = arr[0].length;
+		int dp[][] = new int[row][col];
+		for (int i = 0; i < row; i++)
+			for (int j = 0; j < col; j++)
+				dp[i][j] = -1;
+		int result = 0;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+
+				if (dp[i][j] == -1)
+					findLongestPath(arr, dp, 0, 0, row, col);
+
+				// Update result if needed
+				result = Math.max(result, dp[i][j]);
+			}
+		}
+		return result;
+	}
+
+	private static int findLongestPath(int[][] mat, int dp[][], int i, int j, int row, int col) {
+		if (i < 0 || i >= row || j < 0 || j >= col)
+			return 0;
+		if (dp[i][j] == -1)
+			return dp[i][j];
+
+		if (j < col - 1 && ((mat[i][j] + 1) == mat[i][j + 1]))
+			return dp[i][j] = 1 + findLongestPath(mat, dp, i, j + 1, row, col);
+
+		if (j > 0 && (mat[i][j] + 1 == mat[i][j - 1]))
+			return dp[i][j] = 1 + findLongestPath(mat, dp, i, j - 1, row, col);
+
+		if (i > 0 && (mat[i][j] + 1 == mat[i - 1][j]))
+			return dp[i][j] = 1 + findLongestPath(mat, dp, i - 1, j + 1, row, col);
+
+		if (i < row - 1 && (mat[i][j] + 1 == mat[i + 1][j]))
+			return dp[i][j] = 1 + findLongestPath(mat, dp, i + 1, j + 1, row, col);
+
+		return dp[i][j] = 1;
+	}
+
+	/**
+	 * <code>
+	 * Input : n = 28
+	 * Output : 28
+	 * 
+	 * Input : n = 72
+	 * Output : 96
+	 * 2^72 = 4722366482869645213696
+	 * </code>
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static int findLast2Digits(int n) {
+		int one = n % 10;
+		n = n / 10;
+		int tens = n % 10;
+		tens = 10 * tens;
+		n = tens + one;
+		return n;
+	}
+
+	private boolean check(int i, int val) {
+		if (i - val < 0)
+			return false;
+		return true;
+	}
+
+	public int minPrimes(int n) {
+		int dp[] = new int[n + 1];
+		for (int i = 1; i <= n; i++)
+			dp[i] = Integer.MAX_VALUE;
+
+		dp[0] = dp[2] = dp[3] = dp[5] = dp[7] = 1;
+		for (int i = 1; i <= n; i++) {
+
+			if (check(i, 2))
+				dp[i] = Math.min(dp[i], 1 + dp[i - 2]);
+
+			if (check(i, 3))
+				dp[i] = Math.min(dp[i], 1 + dp[i - 3]);
+
+			if (check(i, 5))
+				dp[i] = Math.min(dp[i], 1 + dp[i - 5]);
+
+			if (check(i, 7))
+				dp[i] = Math.min(dp[i], 1 + dp[i - 7]);
+		}
+
+		if (dp[n] == Integer.MAX_VALUE)
+			return -1;
+		else
+			return dp[n];
+	}
+
 }
