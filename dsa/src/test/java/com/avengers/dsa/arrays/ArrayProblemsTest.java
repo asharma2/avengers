@@ -27,7 +27,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -301,8 +304,29 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _findLast2Digits() throws Exception {
 		int n = 10;
 		assertEquals(24, findLast2Digits((int) Math.pow(2, n)));
+	}
+
+	@Test
+	public void _maxSum() throws Exception {
+		Stack<Integer> stack = new Stack<>();
+		Queue<Integer> queue = new LinkedList<>();
+		stack.push(9);
+		queue.add(9);
+		stack.push(10);
+		queue.add(10);
+		stack.push(0);
+		queue.add(0);
+		stack.push(4);
+		stack.push(5);
+		stack.push(6);
+		queue.add(4);
+		queue.add(5);
+		queue.add(6);
+		int sum = maxSum(stack, queue, 3);
+		System.out.println(sum);
 	}
 }

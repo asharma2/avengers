@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -1078,4 +1079,30 @@ public class ArrayProblems {
 			return dp[n];
 	}
 
+	public static int maxSum(Stack<Integer> stack, Queue<Integer> queue, int k) {
+		if (stack.size() < k)
+			throw new IllegalArgumentException("Please provide the valid input values");
+		if (stack.size() == 3)
+			return stack.stream().mapToInt(i -> i.intValue()).sum();
+
+		int a[] = new int[k], si = 0;
+		int sum = 0;
+		while (si < k) {
+			int p = stack.pop();
+			sum += p;
+			a[si++] = p;
+		}
+		si = k - 1;
+		while (si >= 0) {
+			int p = queue.poll();
+			if (p > a[si]) {
+				sum = sum + p - a[si];
+				a[si--] = p;
+				continue;
+			}
+			break;
+		}
+		System.out.println(Arrays.toString(a));
+		return sum;
+	}
 }
