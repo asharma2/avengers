@@ -224,8 +224,8 @@ public class ArrayProblemsTest {
 	@Test
 	@Ignore
 	public void _maxOccuringWord() throws Exception {
-		String arr[] = { "geeks", "for", "geeks", "a", "portal", "to", "learn", "can", "be", "computer", "science",
-				"zoom", "yup", "fire", "in", "be", "data" };
+		String arr[] = { "geeks", "for", "geeks", "a", "portal", "to", "learn", "can", "be", "computer", "science", "zoom", "yup", "fire", "in", "be",
+		        "data" };
 		String maxOcc = maxOccuringWord(arr);
 		assertEquals("geeks", maxOcc);
 	}
@@ -311,6 +311,7 @@ public class ArrayProblemsTest {
 	}
 
 	@Test
+	@Ignore
 	public void _maxSum() throws Exception {
 		Stack<Integer> stack = new Stack<>();
 		Queue<Integer> queue = new LinkedList<>();
@@ -327,6 +328,48 @@ public class ArrayProblemsTest {
 		queue.add(5);
 		queue.add(6);
 		int sum = maxSum(stack, queue, 3);
-		System.out.println(sum);
+		assertTrue(25 == sum);
 	}
+
+	@Test
+	@Ignore
+	public void _rearrangePositiveNegative() throws Exception {
+		int arr[] = { -12, 11, -13, -5, 6, -7, 5, -3, -6 };
+		rearrangePositiveNegative(arr);
+		assertTrue(11 == arr[6]);
+	}
+
+	@Test
+	@Ignore
+	public void _reverseStackUsingRecursion() throws Exception {
+		Stack<Integer> stack = new Stack<>();
+		stack.push(1);
+		stack.push(2);
+		stack.push(3);
+		stack.push(4);
+		stack.push(5);
+		System.out.println(stack);
+		reverseStackUsingRecursion(stack);
+		System.out.println(stack);
+	}
+
+	@Test
+	@Ignore
+	public void _gcd() throws Exception {
+		int[] arr = { 84, 90, 120 };
+		int g = gcd(arr);
+		assertTrue(6 == g);
+	}
+
+	/**
+	 * 290 530 965
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void _printLeaves() throws Exception {
+		int arr[] = { 890, 325, 290, 530, 965 };
+		printLeaves(arr);
+	}
+
 }

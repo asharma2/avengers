@@ -491,8 +491,7 @@ public class ArrayProblems {
 		if (mid > low && arr[mid] < arr[mid - 1])
 			return (mid - 1);
 
-		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1)
-				: findPivotOfSortedRotatedArray(arr, mid + 1, high);
+		return (arr[low] >= arr[mid]) ? findPivotOfSortedRotatedArray(arr, low, mid - 1) : findPivotOfSortedRotatedArray(arr, mid + 1, high);
 	}
 
 	public static String maxOccuringWord(String[] strs) {
@@ -947,8 +946,7 @@ public class ArrayProblems {
 	private static int findMinRecursion(int[] arr, int i, int sumCal, int sumTotal) {
 		if (i == 0)
 			return Math.abs((sumTotal - sumCal) - sumCal);
-		return Math.min(findMinRecursion(arr, i - 1, sumCal + arr[i - 1], sumTotal),
-				findMinRecursion(arr, i - 1, sumCal, sumTotal));
+		return Math.min(findMinRecursion(arr, i - 1, sumCal + arr[i - 1], sumTotal), findMinRecursion(arr, i - 1, sumCal, sumTotal));
 	}
 
 	/**
@@ -1102,7 +1100,223 @@ public class ArrayProblems {
 			}
 			break;
 		}
-		System.out.println(Arrays.toString(a));
 		return sum;
 	}
+
+	/**
+	 * <code>
+	 * Input: N = 5, K = 3
+	 * Output: 5
+	 * </code>
+	 * 
+	 * @param n
+	 * @param k
+	 * @return
+	 */
+
+	public static int numberOfWayToReachNthFloor(int n, int k) {
+		int combo[] = new int[n + 1];
+		combo[0] = 1;
+
+		for (int i = 1; i <= k; i++) {
+			for (int j = 0; j <= n; j++) {
+				if (j >= i) {
+					combo[j] += combo[j - i];
+				}
+			}
+		}
+		return combo[n];
+	}
+
+	/**
+	 * <code>
+	 * Input:   12 11 -13 -5 6 -7 5 -3 -6
+	 * Output: -13 -5 -7 -3 -6 12 11 6 5
+	 * </code>
+	 * 
+	 * @param arr
+	 */
+	public static void rearrangePositiveNegative(int[] arr) {
+		int negativeCount = 0;
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			if (arr[i] < 0)
+				negativeCount++;
+		}
+		int i = 0, j = i + 1;
+		while (i < negativeCount) {
+			if (arr[i] < 0) {
+				i++;
+				j = i + 1;
+			} else if (arr[i] > 0 && j < n) {
+				swap(arr, i, j++);
+			}
+		}
+	}
+
+	public static void reverseStackUsingRecursion(Stack<Integer> stack) {
+		if (!stack.isEmpty()) {
+			int x = stack.pop();
+			reverseStackUsingRecursion(stack);
+			pushAtBottom(stack, x);
+		}
+	}
+
+	private static void pushAtBottom(Stack<Integer> stack, int x) {
+		if (stack.isEmpty()) {
+			stack.push(x);
+		} else {
+			int xx = stack.pop();
+			pushAtBottom(stack, x);
+			stack.push(xx);
+		}
+	}
+
+	public static void mergeKSortedArrays(int[][] arr, int m, int n) {
+		int result[] = new int[m * n];
+		int itr[] = new int[m];
+		int cnt = 0;
+		while (cnt < m * n) {
+			for (int i = 0; i < m; i++) {
+
+			}
+		}
+	}
+
+	public static int gcd(int[] arr) {
+		int result = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			result = gcd(result, arr[i]);
+		}
+		return result;
+	}
+
+	private static int gcd(int a, int b) {
+		if (a == 0)
+			return b;
+		return gcd(b % a, a);
+	}
+
+	public static void printLeaves(int[] arr) {
+		printLeaves(arr, arr.length);
+	}
+
+	private static void printLeaves(int[] arr, int n) {
+		int i = 0;
+		isLeaf(arr, i, n, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	private static boolean isLeaf(int[] pre, int i, int n, int min, int max) {
+		if (i >= n)
+			return false;
+
+		System.out.println("i: " + i + ", pre[i]: " + pre[i] + ", min: " + min + ", max: " + max);
+
+		if (pre[i] > min && pre[i] < max) {
+			i++;
+
+			boolean left = isLeaf(pre, i, n, min, pre[i - 1]);
+			boolean right = isLeaf(pre, i, n, pre[i - 1], max);
+
+			if (!left && !right)
+				System.out.println(pre[i - 1]);
+
+			return true;
+		}
+		return false;
+	}
+
+	public static int[] leftRotate(int[] arr, int k) {
+		int n = arr.length;
+		int mod = k % n;
+		int result[] = new int[n];
+		for (int i = 0; i < n; i++) {
+			result[i] = arr[(i + mod) % n];
+		}
+		return result;
+	}
+
+	/**
+	 * <code>
+	 * input  [-1, 2, -3, 4, 5, 6, -7, 8, 9], output [9, -7, 8, -3, 5, -1, 2, 4, 6]
+	 * </code>
+	 * 
+	 * @param arr
+	 */
+	public static void rearrange(int arr[]) {
+		int pivot = 0;
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			if (arr[i] < 0) {
+				swap(arr, pivot++, i);
+			}
+		}
+
+		int pos = pivot + 1, neg = 0;
+
+		while (pos < n && neg < pos && arr[neg] < 0) {
+			int x = arr[neg];
+			arr[neg] = arr[pos];
+			arr[pos] = x;
+			pos++;
+			neg += 2;
+		}
+	}
+
+	public static void splitAndArrange(int[] arr, int k) {
+		int n = arr.length - 1;
+		swapInRange(arr, 0, n);
+		swapInRange(arr, 0, k);
+		swapInRange(arr, k, n);
+	}
+
+	private static void swapInRange(int[] arr, int s, int e) {
+		while (s > e) {
+			int x = arr[s];
+			arr[s--] = arr[e];
+			arr[e--] = x;
+		}
+	}
+
+	/**
+	 * m mangoes amongst n people
+	 * 
+	 * @param m
+	 * @param n
+	 * @return
+	 */
+	public static int distributeMItemsNPeople(int m, int n) {
+		if (m < n)
+			return 0;
+		return binomicalCoefficient(n + m - 1, n - 1);
+	}
+
+	private static int binomicalCoefficient(int m, int n) {
+		int res = 1;
+		if (m > n - m)
+			m = n - m;
+		for (int i = 0; i < m; ++i) {
+			res = res * (n - i);
+			res = res / (i + 1);
+		}
+		return res;
+	}
+
+	public static int sumOfArraysBitwise(int[] arr, int n) {
+		int i, sum = 0, sum1 = 0, j;
+		for (i = 0; i < n; i++) {
+			sum1 = 0;
+			// perform Bitwise OR operation
+			// on all the subarray present in array
+			for (j = i; j < n; j++) {
+				// OR operation
+				sum1 = (sum1 | arr[j]);
+				// now add the sum after performing the
+				// Bitwise OR operation
+				sum = sum + sum1;
+			}
+		}
+		return sum;
+	}
+
 }

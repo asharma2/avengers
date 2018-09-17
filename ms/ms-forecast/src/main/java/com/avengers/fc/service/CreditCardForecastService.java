@@ -5,14 +5,32 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.avengers.fc.annotation.EnchanceValue;
 import com.avengers.fc.exception.ForecastException;
 import com.avengers.fc.model.CreditCardBill;
 
 @Service
 public class CreditCardForecastService implements ForecastService<CreditCardBill> {
+
+	@EnchanceValue(prefix = "xyz")
+	@Value("${forest.unit}")
+	String value1;
+	@Value("${forest.unit}")
+	String value2;
+
+	@Override
+	public CreditCardBill ping() throws ForecastException {
+		Map<String, String> properties = new HashMap<>();
+		properties.put("V1", value1);
+		properties.put("V2", value2);
+		return new CreditCardBill().setAccountHolder("xxxx-xxxx-xxxx-9211").setAccountHolder("AKS").setAmount(BigDecimal.TEN).setProperties(properties);
+	}
 
 	@Override
 	public CreditCardBill predictData(byte[] tsData) throws ForecastException {
@@ -53,10 +71,8 @@ public class CreditCardForecastService implements ForecastService<CreditCardBill
 		Double sdTime = Math.sqrt(squareTime / size);
 		Double sdAmount = Math.sqrt(squareAmount / size);
 
-		return new CreditCardBill().setAccountHolder(accountHolder).setCardNumber(cardNumber)
-		        .setDate(new Date(lastPubTime + sdTime.longValue()))
-		        .setAmount(BigDecimal.valueOf(lastPubAmount + sdAmount.doubleValue()).multiply(BigDecimal.ONE,
-		                new MathContext(2, RoundingMode.CEILING)));
+		return new CreditCardBill().setAccountHolder(accountHolder).setCardNumber(cardNumber).setDate(new Date(lastPubTime + sdTime.longValue()))
+		        .setAmount(BigDecimal.valueOf(lastPubAmount + sdAmount.doubleValue()).multiply(BigDecimal.ONE, new MathContext(2, RoundingMode.CEILING)));
 	}
 
 }

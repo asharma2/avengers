@@ -2,6 +2,8 @@ package com.avengers.fc.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,6 +14,7 @@ public class CreditCardBill implements Data {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	protected Date date;
 	protected BigDecimal amount;
+	private Map<String, String> properties = new HashMap<>();
 
 	public CreditCardBill() {
 	}
@@ -49,6 +52,15 @@ public class CreditCardBill implements Data {
 
 	public CreditCardBill setAmount(BigDecimal amount) {
 		this.amount = amount;
+		return this;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public CreditCardBill setProperties(Map<String, String> properties) {
+		this.properties = properties;
 		return this;
 	}
 

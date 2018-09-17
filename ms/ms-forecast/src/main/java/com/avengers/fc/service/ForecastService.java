@@ -26,5 +26,7 @@ public interface ForecastService<D extends Data> {
 	 * @throws ForecastException
 	 */
 	D predictData(Collection<D> data) throws ForecastException;
+	
+	D ping() throws ForecastException;
 
 }

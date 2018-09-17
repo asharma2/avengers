@@ -1,8 +1,6 @@
 package com.avengers.fc.web;
 
-import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -73,7 +71,6 @@ public class ForecastController {
 	@GetMapping(path = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public CreditCardBill status() throws ForecastException {
-		return new CreditCardBill().setAccountHolder("ATUL").setAmount(BigDecimal.TEN).setCardNumber("xxxx-xxxx-xxxx-9211")
-		        .setDate(new Date());
+		return creditCardForestcastService.ping();
 	}
 }

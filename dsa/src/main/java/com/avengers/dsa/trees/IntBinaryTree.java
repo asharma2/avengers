@@ -100,8 +100,7 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 
 		@Override
 		public String toString() {
-			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans
-					+ ", bst=" + bst + "]";
+			return "NodeInfo [node=" + node + ", max=" + max + ", min=" + min + ", size=" + size + ", ans=" + ans + ", bst=" + bst + "]";
 		}
 	}
 
@@ -559,6 +558,38 @@ public class IntBinaryTree implements BinaryTree<Integer> {
 			return 1;
 		if (level > 1)
 			return width(node.left, level - 1) + width(node.right, level - 1);
+		return 0;
+	}
+
+	class Count {
+		int count = 0;
+	}
+
+	public int countSpecialDigits() {
+		Count c = new Count();
+		countSpecialDigits(root, c);
+		return c.count;
+	}
+
+	private void countSpecialDigits(Node node, Count count) {
+
+		if (checkSpecialDigit(node) == 1) {
+			count.count++;
+		}
+		countSpecialDigits(node.left, count);
+		countSpecialDigits(node.right, count);
+
+	}
+
+	private int checkSpecialDigit(Node node) {
+		if (node == null)
+			return 0;
+		if (node.data >= 10 && node.data <= 99) {
+			int sumOfDigits = (node.data % 10) + (node.data / 10);
+			int productOfDigits = (node.data % 10) * (node.data / 10);
+			if (node.data == (productOfDigits + sumOfDigits))
+				return 1;
+		}
 		return 0;
 	}
 
