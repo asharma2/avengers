@@ -1319,4 +1319,26 @@ public class ArrayProblems {
 		return sum;
 	}
 
+	public static void printNextGreaterNumber(int[] arr) {
+		int n = arr.length;
+		Stack<Integer> s = new Stack<>();
+		for (int i = n - 1; i >= 0; i--) {
+			System.out.println(s);
+			while (!s.empty() && s.peek() < arr[i]) {
+				s.pop();
+			}
+
+			if (s.empty()) {
+				arr[i] = -1;
+			} else {
+				arr[i] = s.peek();
+			}
+
+			s.push(arr[i]);
+		}
+		for (int x : arr) {
+			System.out.println(x);
+		}
+	}
+
 }

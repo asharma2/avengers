@@ -507,4 +507,13 @@ public class IntBinarySearchTree implements ITree<Integer> {
 		return node;
 	}
 
+	public void modify(Node<Integer> node, Sum sum) {
+		if (node == null)
+			return;
+		modify(node.right, sum);
+		sum.sum = node.data + sum.sum;
+		node.data = sum.sum;
+		modify(node.left, sum);
+	}
+
 }

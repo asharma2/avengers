@@ -1,6 +1,6 @@
 package com.avengers.dsa.arrays;
 
-import static com.avengers.dsa.arrays.ArrayProblems.canBePreOrder;
+import static com.avengers.dsa.arrays.ArrayProblems.*;
 import static com.avengers.dsa.arrays.ArrayProblems.chocolateDistribution;
 import static com.avengers.dsa.arrays.ArrayProblems.equilibriumPoint;
 import static com.avengers.dsa.arrays.ArrayProblems.findMeanPoint;
@@ -370,6 +370,12 @@ public class ArrayProblemsTest {
 	public void _printLeaves() throws Exception {
 		int arr[] = { 890, 325, 290, 530, 965 };
 		printLeaves(arr);
+	}
+
+	@Test
+	public void _printNextGreaterNumber() throws Exception {
+		int arr[] = { 4, 5, 2, 25 };
+		printNextGreaterNumber(arr);
 	}
 
 }
